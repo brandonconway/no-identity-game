@@ -1,0 +1,15 @@
+{
+    "name": "no_identity_phaser_game",
+    "version": "1.0.0dev",
+    "description": "Phaser.js web game",
+    "repository": "",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "phaser": "^2.6.2",
+        "babel-core": "^6.13.2",
+        "core-js": "^2.4.0",
+        "systemjs": "^0.19.37",
+        "systemjs-builder": "^0.15.29",
+        "systemjs-plugin-babel": "^0.0.13"
+    }
+}
