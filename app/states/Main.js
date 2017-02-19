@@ -1,4 +1,5 @@
 import {IdentityPlayer} from "../components/Player.js"
+import {Goal} from "../components/Goal.js"
 
 class Main extends Phaser.State {
 
@@ -9,6 +10,10 @@ class Main extends Phaser.State {
     }
 
     create() {
+        var x, y;
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+        this.game.addTouch(this);
+
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.add.button(this.width-20, 0,
                                  'pauseButton',
@@ -39,38 +44,33 @@ class Main extends Phaser.State {
         ledge.body.immovable = true;
         ledge.scale.setTo(50, 0.5);
 
-        /* build a path
-        this.path = this.game.generatePathFromPoints(this.points);
+        // Player
+        x = 5;
+        y = 0;
+        this.player = new IdentityPlayer(this.game, x, y, 'player');
+        this.game.add.existing(this.player);
 
-        */
-
-
-
-
-        this.cursors = this.game.input.keyboard.createCursorKeys();
-        this.game.addTouch(this);
-
+        // Group
         this.groupers = this.game.add.group();
         this.groupers.enableBody = true;
         for (var i = 0; i < 6; i++)
         {
-            this.groupers.create(0-(40+i), 0, 'player');
+            x = 0 - (40 + i);
+            y = 0;
+            this.groupers.create(x, y, 'player');
         }
         this.groupers.children.forEach((person, index)=>{
             person.body.gravity.y = this.game.gravity;
         });
         this.game.physics.enable(this.groupers, Phaser.Physics.ARCADE);
 
-        this.player = new IdentityPlayer(this.game, 5, 0, 'player');
+        // Goal
+        x = this.game.width*0.97;
+        y = this.game.world.height - 77;
+        this.house = new Goal(this.game, x, y, 'house');
+        this.game.add.existing(this.house);
 
-        this.game.add.existing(this.player);
-        this.house = this.add.sprite(this.game.width*0.97, this.game.world.height - 77, 'house');
-        this.game.physics.enable(this.house, Phaser.Physics.ARCADE);
-        this.house.scale.setTo(1.75, 1.75);
-        this.house.scale.x *= -1;
-        this.house.enableBody = true;
-        this.house.body.immovable = true
-
+        // Music
         this.mainMusic = this.add.audio('mainMusic');
         this.mainMusic.loop = true;
         if(!this.mainMusic.isPlaying){
