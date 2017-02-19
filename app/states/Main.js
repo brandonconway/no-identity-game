@@ -1,9 +1,11 @@
+import {IdentityPlayer} from "../components/Player.js"
 
 class Main extends Phaser.State {
 
-    init () {
+    init (level) {
         this.game.addFullScreenButton();
-        this.gravity = 1000;
+        this.game.gravity = 1000;
+        this.level = level;
     }
 
     create() {
@@ -14,12 +16,14 @@ class Main extends Phaser.State {
                              );
 
         this.game.stage.backgroundColor = 'black';
-        this.game.bmd = this.add.bitmapData(this.game.width, this.game.height);
-        this.game.bmd.addToWorld();
-        let win_text = this.game.add.text(this.game.width/2, this.game.height/2, "You did it!", this.game.headerStyle);
+        let win_text = this.game.add.text(
+            this.game.width/2,
+            this.game.height/2,
+            `Level ${this.level} complete!`,
+            this.game.headerStyle);
+
         win_text.anchor.set(0.5);
         win_text.visible = false;
-
         this.game.win_text = win_text;
 
         this.platforms = this.game.add.group();
@@ -53,18 +57,13 @@ class Main extends Phaser.State {
             this.groupers.create(0-(40+i), 0, 'player');
         }
         this.groupers.children.forEach((person, index)=>{
-            person.body.gravity.y = this.gravity;
+            person.body.gravity.y = this.game.gravity;
         });
         this.game.physics.enable(this.groupers, Phaser.Physics.ARCADE);
 
-        this.player = this.add.sprite(5, 0, 'player');
-        this.player.anchor.set(0.5);
-        this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
-        this.player.enableBody = true;
-        this.player.body.bounce.y = 0.2;
-        this.player.body.gravity.y = this.gravity;
-        this.player.body.collideWorldBounds = true;
+        this.player = new IdentityPlayer(this.game, 5, 0, 'player');
 
+        this.game.add.existing(this.player);
         this.house = this.add.sprite(this.game.width*0.97, this.game.world.height - 77, 'house');
         this.game.physics.enable(this.house, Phaser.Physics.ARCADE);
         this.house.scale.setTo(1.75, 1.75);
