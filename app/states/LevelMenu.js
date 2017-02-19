@@ -3,12 +3,16 @@ import {Main} from "./Main.js"
 
 class LevelMenu extends Phaser.State {
 
+	init (level) {
+		this.level = level || 1;
+	}
+
 	create() {
         this.game.addFullScreenButton();
 
         var text, playButton;
         text = this.add.text(this.game.width/2,
-                             this.game.height/4, "Start Level 1",
+                             this.game.height/4, `Start Level ${this.level}`,
                              this.game.headerStyle
                             ).anchor.set(0.5);
         var playButton = this.add.button(
@@ -22,6 +26,11 @@ class LevelMenu extends Phaser.State {
 	}
 
 	startGame (level) {
+		this.mainMusic = this.add.audio('mainMusic');
+        this.mainMusic.loop = true;
+        if(!this.mainMusic.isPlaying){
+            this.mainMusic.play();
+        }
 		this.state.start('Main');
 	}
 

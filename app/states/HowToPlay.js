@@ -43,7 +43,7 @@ class HowToPlay extends Phaser.State {
 
 	startGame (level) {
 		//this.state.start('LevelMenu');
-		this.state.start('Main');
+		this.state.start('Main', true, false, 1);
 	}
 
 };
