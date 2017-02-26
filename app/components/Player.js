@@ -20,6 +20,40 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     // non-collision updates could go here:
+
+    update () {
+        let cursors = this.game.cursors;
+        if (cursors.left.isDown)
+        {
+            this.body.velocity.x = -70;
+            this.scale.x = 1;
+            this.game.groupers.children.forEach((person, index)=>{
+                if (person.body.touching.down) {
+                    this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
+                }
+            });
+        }
+        else if (cursors.right.isDown)
+        {
+            this.body.velocity.x = 70;
+            this.scale.x = -1;
+            this.game.groupers.children.forEach((person, index)=>{
+                if (person.body.touching.down) {
+                    this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
+                }
+            });
+        }
+        else {
+            this.body.velocity.x = 0;
+            this.game.groupers.children.forEach((person, index)=>{
+                if (person.body.touching.down) {
+                    this.game.physics.arcade.moveToObject(person, this, 60+index);
+                }
+            });
+        }
+    }
+
 }
+
 
 export {IdentityPlayer}

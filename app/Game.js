@@ -22,35 +22,8 @@ class Game extends Phaser.Game {
 
     }
 
-    getObjectsByTypeFromTileMap (file, object_type) {
-        // args; tilemap file (path), objects to retrieve (string)
-        // returns: list of objects
-    }
-
-    getPointsFromPointObjects (point_objects) {
-        // args: point objects from tilemap
-        // returns: an array of objects with x,y coords
-    }
-
-    generatePathFromPoints (points) {
-        // args: points from tilemap objects and creates motion path
-        // return: generated path
-
-        //this.bmd.clear();
-        var x = 1 / this.width;
-        var path = [];
-
-        for (var i = 0; i <= 1; i += x) {
-            var px = this.math.catmullRomInterpolation(points.x, i);
-            var py = this.math.catmullRomInterpolation(points.y, i);
-            //this.bmd.rect(px, py, 1, 1, 'rgba(255, 255, 255, 1)'); draw a line on the path.
-            path.push( { x: px, y: py });
-        }
-        return path;
-    }
-
     loseGame () {
-        // Necessary logic when the game is overa
+        // Necessary logic when the game is lost
         // returns: a phaser game state
     }
 
@@ -59,7 +32,7 @@ class Game extends Phaser.Game {
         // returns: a phaser game state
         this.game.win_text.visible = true;
         this.player.visible = false;
-        this.groupers.visible = false;
+        this.game.groupers.visible = false;
         this.mainMusic.stop();
         setTimeout(()=>{this.state.start('MainMenu');}, 1500);
     }
@@ -69,12 +42,12 @@ class Game extends Phaser.Game {
         // returns: a phaser game state
     }
 
-    addTouch(state) {
-        var game = state.game;
-        var cursors = state.cursors;
+    addTouch(game) {
+        let cursors, rightButton, leftButton;
+        cursors = game.cursors;
 
         if (game.device.touch) {
-            var rightButton = this.add.sprite(
+            rightButton = this.add.sprite(
                                          game.width-40,
                                          game.height/2, 'playButton');
             rightButton.inputEnabled = true;
@@ -83,7 +56,7 @@ class Game extends Phaser.Game {
                 {'direction': 'right',
                 'cursors': cursors});
 
-            var leftButton = this.add.sprite(
+            leftButton = this.add.sprite(
                                           40,
                                           game.height/2, 'playButton');
             leftButton.inputEnabled = true;
@@ -152,6 +125,22 @@ class Game extends Phaser.Game {
 
 }
 
+class WinText extends Phaser.Text {
+
+    constructor(stage) {
+        let text, x, y, style, game;
+        text = `Level ${stage.level} complete!`;
+        x = stage.game.width/2;
+        y = stage.game.height/2;
+        style = stage.game.headerStyle;
+        game = stage.game;
+        super(game, x, y, text, style);
+        this.visible = false;
+        this.anchor.set(0.5);
+    }
+}
+
 export {
-    Game
+    Game,
+    WinText
 }
