@@ -14,14 +14,14 @@ class LevelMenu extends Phaser.State {
 		this.game.load.json(`level${this.level}`, filepath);
 	}
 
-	create() {
+	create () {
         this.game.addFullScreenButton();
-		let levelData = this.game.cache.getJSON(`level${this.level}`);
+		this.levelData = this.game.cache.getJSON(`level${this.level}`);
 
         var text, playButton;
         text = this.add.text(this.game.width/2,
                              this.game.height/4,
-							 `Start ${levelData.level.title}`,
+							 `Start ${this.levelData.level.title}`,
                              this.game.headerStyle
                             ).anchor.set(0.5);
         var playButton = this.add.button(

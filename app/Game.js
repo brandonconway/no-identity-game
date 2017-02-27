@@ -19,6 +19,7 @@ class Game extends Phaser.Game {
             boundsAlignH: "center",
             boundsAlignV: "middle"
         }
+        this.total_levels = 5;
 
     }
 
@@ -30,11 +31,23 @@ class Game extends Phaser.Game {
     winLevel (player, goal) {
         // Necessary logic when passing a level.
         // returns: a phaser game state
-        this.game.win_text.visible = true;
-        this.player.visible = false;
-        this.game.groupers.visible = false;
-        this.mainMusic.stop();
-        setTimeout(()=>{this.state.start('MainMenu');}, 1500);
+        if (!this.complete) {
+            this.complete = true;
+            this.game.win_text.visible = true; // use WinText method
+            this.player.visible = false;
+            this.game.groupers.visible = false;
+            this.mainMusic.stop();
+            if (this.level + 1 > this.game.total_levels) {
+                setTimeout(() => {
+                    this.state.start('MainMenu'); // Call EndGame state instead
+                }, 1500);
+            }
+            else { // go to next level
+                setTimeout(() => {
+                        this.state.start('LevelMenu', true, false, this.level+1);
+                    }, 1500);
+            }
+        }
     }
 
     completeGame () {

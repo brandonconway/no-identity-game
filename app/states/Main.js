@@ -6,9 +6,10 @@ class Main extends Phaser.State {
 
     init (level) {
         this.game.addFullScreenButton();
-        this.game.gravity = 1000;
+        this.game.gravity = 1000; // will this change per stage?
         this.level = level;
-        this.backgroundColor = 'black';
+        this.complete = false;
+        this.backgroundColor = 'black'; // will this change per stage?
     }
 
     create() {
@@ -30,7 +31,7 @@ class Main extends Phaser.State {
         // Platforms
         this.platforms = this.game.add.group();
         this.platforms.enableBody = true;
-        ground = this.platforms.create(-100, this.game.world.height -16, 'ground');
+        ground = this.platforms.create(-100, this.game.world.height - 16, 'ground');
         ground.scale.setTo(100, 1);
         ground.body.immovable = true;
 
@@ -62,7 +63,7 @@ class Main extends Phaser.State {
         this.game.add.existing(this.player);
 
         // Goal (house)
-        x = this.game.width*0.97;
+        x = this.game.width * 0.97;
         y = this.game.world.height - 77;
         this.house = new Goal(this.game, x, y, 'house');
         this.game.add.existing(this.house);
@@ -83,10 +84,10 @@ class Main extends Phaser.State {
 
         // first grouper is slowest.
         let slowest_grouper = this.game.groupers.children[0];
+        slowest_grouper = this.game.groupers.getFirstExists();
         this.game.physics.arcade.collide(slowest_grouper, this.house, this.game.winLevel, null, this);
 
-        // make characters disappear when collide with house?
-        /*
+        /* make characters disappear when collide with house?
         this.game.physics.arcade.collide(this.player,
                                          this.house,
                                          (player, house) => { player.kill();},
