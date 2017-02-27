@@ -3,12 +3,12 @@
         "id": 1,
         "title": "Level 1",
         "initial": {
-            "identity": 0,
-            "player": {
-                "can_jump": false,
-                "can_shoot": false,
-                "image": "undefined"
-            }
+            "identity": 0
+        },
+        "player": {
+            "can_jump": false,
+            "can_shoot": false,
+            "image": ""
         },
         "enemies": null
     }

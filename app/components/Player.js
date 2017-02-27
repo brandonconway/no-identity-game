@@ -5,7 +5,7 @@
 
 class IdentityPlayer extends Phaser.Sprite {
 
-    constructor (game, x, y, image) {
+    constructor (game, x, y, image, options) {
         //this.player = this.add.sprite(5, 0, 'player');
         // conditional logic to choose placement and image
         // eg: load game level config
@@ -16,7 +16,18 @@ class IdentityPlayer extends Phaser.Sprite {
         this.enableBody = true;
         this.body.bounce.y = 0.2;
         this.body.gravity.y = game.gravity;
+        this.body.velocity.y = 0;
         this.body.collideWorldBounds = true;
+        this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
+        if (options != undefined) {
+            if (options.can_shoot != undefined) {
+                this.can_shoot = options.can_shoot;
+            }
+            if (options.can_jump != undefined) {
+                this.can_jump = options.can_jump;
+            }
+        }
     }
 
     // non-collision updates could go here:
@@ -25,23 +36,11 @@ class IdentityPlayer extends Phaser.Sprite {
         let cursors = this.game.cursors;
         if (cursors.left.isDown)
         {
-            this.body.velocity.x = -70;
-            this.scale.x = 1;
-            this.game.groupers.children.forEach((person, index)=>{
-                if (person.body.touching.down) {
-                    this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
-                }
-            });
+            this.moveLeft();
         }
         else if (cursors.right.isDown)
         {
-            this.body.velocity.x = 70;
-            this.scale.x = -1;
-            this.game.groupers.children.forEach((person, index)=>{
-                if (person.body.touching.down) {
-                    this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
-                }
-            });
+            this.moveRight();
         }
         else {
             this.body.velocity.x = 0;
@@ -51,6 +50,45 @@ class IdentityPlayer extends Phaser.Sprite {
                 }
             });
         }
+
+        if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
+    	    this.jump();
+        }
+        if (this.shootButton.isDown && this.can_shoot){
+            this.fireBlast();
+        }
+    }
+
+    moveRight () {
+        this.body.velocity.x = 70;
+        this.scale.x = -1;
+        // add animations
+        this.game.groupers.children.forEach((person, index)=>{
+            if (person.body.touching.down) {
+                this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
+            }
+        });
+    }
+
+    moveLeft () {
+        this.body.velocity.x = -70;
+        this.scale.x = 1;
+        // add animations
+        this.game.groupers.children.forEach((person, index)=>{
+            if (person.body.touching.down) {
+                this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
+            }
+        });
+    }
+
+    jump () {
+        this.body.velocity.y -= 350;
+        // add animations
+    }
+
+    fireBlast () {
+        // create sprite groups
+        // add animations
     }
 
 }

@@ -3,12 +3,12 @@
         "id": 2,
         "title": "Level 2",
         "initial": {
-            "identity": 0,
-            "player": {
+            "identity": 0
+        },
+        "player": {
                 "can_jump": true,
                 "can_shoot": false,
-                "image": "undefined"
-            }
+                "image": "player"
         },
         "enemies": null
     }

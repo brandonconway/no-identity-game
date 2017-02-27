@@ -40,7 +40,7 @@ class LevelMenu extends Phaser.State {
         if(!this.mainMusic.isPlaying){
             this.mainMusic.play();
         }
-		this.state.start('Main', true, false, 1);
+		this.state.start('Main', true, false, this.level);
 	}
 
 };

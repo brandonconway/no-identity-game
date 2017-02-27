@@ -10,10 +10,12 @@ class Main extends Phaser.State {
         this.level = level;
         this.complete = false;
         this.backgroundColor = 'black'; // will this change per stage?
+        console.log(this.level);
+        this.levelData = this.game.cache.getJSON(`level${this.level}`);
     }
 
     create() {
-        let x, y, win_text, ground, ledge;
+        let x, y, win_text, ground, ledge, options;
 
         this.game.stage.backgroundColor = this.backgroundColor;
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
@@ -59,7 +61,8 @@ class Main extends Phaser.State {
         // Player
         x = 5;
         y = 0;
-        this.player = new IdentityPlayer(this.game, x, y, 'player');
+        options = this.levelData.level.player;
+        this.player = new IdentityPlayer(this.game, x, y, 'player', options);
         this.game.add.existing(this.player);
 
         // Goal (house)
@@ -75,6 +78,12 @@ class Main extends Phaser.State {
             this.mainMusic.play();
         }
 
+        //dev keyboard cheats
+        this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        this.levelButton2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        this.levelButton3 = this.game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        this.levelButton4 = this.game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        this.levelButton5 = this.game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
     }
 
     update () {
@@ -97,6 +106,24 @@ class Main extends Phaser.State {
                                          (house, grouper) => { grouper.kill();},
                                          null, this);
         */
+
+
+        //dev cheats
+        if (this.levelButton1.isDown) {
+            this.state.start('LevelMenu', true, false, 1);
+        }
+        if (this.levelButton2.isDown) {
+            this.state.start('LevelMenu', true, false, 2);
+        }
+        if (this.levelButton3.isDown) {
+            this.state.start('LevelMenu', true, false, 3);
+        }
+        if (this.levelButton4.isDown) {
+            this.state.start('LevelMenu', true, false, 4);
+        }
+        if (this.levelButton5.isDown) {
+            this.state.start('LevelMenu', true, false, 5);
+        }
 
     }
 
