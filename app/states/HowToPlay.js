@@ -1,10 +1,9 @@
 import {LevelMenu} from "./LevelMenu.js";
-import {Main} from "./Main.js"
 
 
 class HowToPlay extends Phaser.State {
 
-    create() {
+    create () {
         this.game.addFullScreenButton();
 
         var text, playButton;
@@ -37,14 +36,13 @@ class HowToPlay extends Phaser.State {
                                'house');
         image.anchor.set(0.5);
         this.state.add('LevelMenu', LevelMenu);
-        this.state.add('Main', Main);
 
 	}
 
 	startGame (level) {
-		//this.state.start('LevelMenu');
-		this.state.start('Main', true, false, 1);
+		this.state.start('LevelMenu', true, false, 1);
 	}
+
 
 };
 

@@ -7,12 +7,21 @@ class LevelMenu extends Phaser.State {
 		this.level = level || 1;
 	}
 
+	preload () {
+		let filepath, basepath;
+		basepath = "data";
+		filepath = `${basepath}/level${this.level}.json`;
+		this.game.load.json(`level${this.level}`, filepath);
+	}
+
 	create() {
         this.game.addFullScreenButton();
+		let levelData = this.game.cache.getJSON(`level${this.level}`);
 
         var text, playButton;
         text = this.add.text(this.game.width/2,
-                             this.game.height/4, `Start Level ${this.level}`,
+                             this.game.height/4,
+							 `Start ${levelData.level.title}`,
                              this.game.headerStyle
                             ).anchor.set(0.5);
         var playButton = this.add.button(
@@ -31,7 +40,7 @@ class LevelMenu extends Phaser.State {
         if(!this.mainMusic.isPlaying){
             this.mainMusic.play();
         }
-		this.state.start('Main');
+		this.state.start('Main', true, false, 1);
 	}
 
 };
