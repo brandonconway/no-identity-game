@@ -100,16 +100,18 @@ class Game extends Phaser.Game {
     }
 
     addFullScreenButton () {
-        var game;
-        game = this;
-        this.fullButton = this.add.button(this.width-10, 10,
-                                 'fullScreenButton',
-                                 this.enterFullScreen, this
-                             );
-        this.fullButton.anchor.set(0.5);
-        this.scale.onFullScreenChange.add(function() {
-            game.fullButton.visible = !game.scale.isFullScreen;
-        });
+        if(!this.scale.isFullScreen) {
+            var game;
+            game = this;
+            this.fullButton = this.add.button(this.width-10, 10,
+                                     'fullScreenButton',
+                                     this.enterFullScreen, this
+                                 );
+            this.fullButton.anchor.set(0.5);
+            this.scale.onFullScreenChange.add(function() {
+                game.fullButton.visible = !game.scale.isFullScreen;
+            });
+        }
     }
 
     enterFullScreen (button) {
