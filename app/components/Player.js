@@ -44,11 +44,6 @@ class IdentityPlayer extends Phaser.Sprite {
         }
         else {
             this.body.velocity.x = 0;
-            this.game.groupers.children.forEach((person, index)=>{
-                if (person.body.touching.down) {
-                    this.game.physics.arcade.moveToObject(person, this, 60+index);
-                }
-            });
         }
 
         if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
@@ -63,22 +58,12 @@ class IdentityPlayer extends Phaser.Sprite {
         this.body.velocity.x = 70;
         this.scale.x = -1;
         // add animations
-        this.game.groupers.children.forEach((person, index)=>{
-            if (person.body.touching.down) {
-                this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
-            }
-        });
     }
 
     moveLeft () {
         this.body.velocity.x = -70;
         this.scale.x = 1;
         // add animations
-        this.game.groupers.children.forEach((person, index)=>{
-            if (person.body.touching.down) {
-                this.game.physics.arcade.moveToObject(person, this, 60+(index*10));
-            }
-        });
     }
 
     jump () {

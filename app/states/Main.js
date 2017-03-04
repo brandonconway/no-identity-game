@@ -36,29 +36,31 @@ class Main extends Phaser.State {
         levelPlatforms = this.levelData.level.platforms;
         levelPlatforms.forEach((platform)=> {
             let platformChild;
-            console.log(platform);
             x = platform.xOffset;
             y = this.game.height - platform.yOffset;
             platformChild = this.platforms.create(x, y, platform.key);
             platformChild.scale.setTo(platform.scaleX, platform.scaleY);
             platformChild.body.immovable = true;
-            console.log(platformChild);
-
         });
 
-        // Group
-        this.game.groupers = this.game.add.group();
-        this.game.groupers.enableBody = true;
-        for (var i = 0; i < 6; i++)
-        {
-            x = 0 - (40 + i);
-            y = 0;
-            this.game.groupers.create(x, y, 'player');
+        if (this.levelData.level.group) {
+            // Group
+            this.game.groupers = this.game.add.group();
+            this.game.groupers.enableBody = true;
+            for (var i = 0; i < 6; i++)
+            {
+                let grouper;
+                x = 0 - (40 + i);
+                y = 0;
+                grouper = this.game.groupers.create(x, y, 'player');
+                grouper.body.bounce.y = 0.1;
+
+            }
+            this.game.groupers.children.forEach((person, index)=>{
+                person.body.gravity.y = this.game.gravity;
+            });
+            this.game.physics.enable(this.game.groupers, Phaser.Physics.ARCADE);
         }
-        this.game.groupers.children.forEach((person, index)=>{
-            person.body.gravity.y = this.game.gravity;
-        });
-        this.game.physics.enable(this.game.groupers, Phaser.Physics.ARCADE);
 
         // Player
         x = 5;
@@ -93,13 +95,19 @@ class Main extends Phaser.State {
         this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
 
-        this.game.physics.arcade.collide(this.game.groupers, this.platforms);
+        if (this.game.groupers) {
+            this.game.physics.arcade.collide(this.game.groupers, this.platforms);
+            // first grouper is slowest.
+            let slowest_grouper = this.game.groupers.children[0];
+            slowest_grouper = this.game.groupers.getFirstExists();
+            this.game.physics.arcade.collide(slowest_grouper, this.house, this.game.winLevel, null, this);
 
-        // first grouper is slowest.
-        let slowest_grouper = this.game.groupers.children[0];
-        slowest_grouper = this.game.groupers.getFirstExists();
-        this.game.physics.arcade.collide(slowest_grouper, this.house, this.game.winLevel, null, this);
-
+            this.game.groupers.children.forEach((person, index)=>{
+                if (person.body.touching.down) {
+                    this.game.physics.arcade.moveToObject(person, this.player, 60+(index*10));
+                }
+            });
+        }
         /* make characters disappear when collide with house?
         this.game.physics.arcade.collide(this.player,
                                          this.house,

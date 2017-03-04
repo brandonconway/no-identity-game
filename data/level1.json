@@ -6,8 +6,9 @@
         "player": {
             "can_jump": false,
             "can_shoot": false,
-            "image": ""
+            "image": "player"
         },
+        "group": true,
         "enemies": null,
         "platforms": [
                         {
@@ -17,7 +18,8 @@
                          "scaleY": 1,
                          "key": "ground"
                         },
-                        {"xOffset": -10,
+                        {
+                         "xOffset": -10,
                          "yOffset": 300,
                          "scaleX": 15,
                          "scaleY": 0.5,
