@@ -14,13 +14,12 @@ class Main extends Phaser.State {
         this.level = level;
         this.complete = false;
         this.backgroundColor = 'black'; // will this change per stage?
-        console.log(this.level);
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
         this.game.addIdentityBar(this.levelData.level.identity_level);
     }
 
     create() {
-        let x, y, win_text, ground, ledge, options;
+        let x, y, win_text, ground, ledge, options, levelPlatforms;
 
         this.game.stage.backgroundColor = this.backgroundColor;
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
@@ -34,16 +33,18 @@ class Main extends Phaser.State {
         // Platforms
         this.platforms = this.game.add.group();
         this.platforms.enableBody = true;
-        ground = this.platforms.create(-100, this.game.world.height - 16, 'ground');
-        ground.scale.setTo(100, 1);
-        ground.body.immovable = true;
+        levelPlatforms = this.levelData.level.platforms;
+        levelPlatforms.forEach((platform)=> {
+            let platformChild;
+            console.log(platform);
+            x = platform.xOffset;
+            y = this.game.height - platform.yOffset;
+            platformChild = this.platforms.create(x, y, platform.key);
+            platformChild.scale.setTo(platform.scaleX, platform.scaleY);
+            platformChild.body.immovable = true;
+            console.log(platformChild);
 
-        ledge = this.platforms.create(-100, 135, 'ground');
-        ledge.body.immovable = true;
-        ledge.scale.setTo(20, 0.5);
-        ledge = this.platforms.create(200, 275, 'ground');
-        ledge.body.immovable = true;
-        ledge.scale.setTo(50, 0.5);
+        });
 
         // Group
         this.game.groupers = this.game.add.group();
@@ -91,6 +92,7 @@ class Main extends Phaser.State {
     update () {
         this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
+
         this.game.physics.arcade.collide(this.game.groupers, this.platforms);
 
         // first grouper is slowest.

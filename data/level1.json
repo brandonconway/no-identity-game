@@ -8,6 +8,27 @@
             "can_shoot": false,
             "image": ""
         },
-        "enemies": null
+        "enemies": null,
+        "platforms": [
+                        {
+                         "xOffset": -10,
+                         "yOffset": 15,
+                         "scaleX": 40,
+                         "scaleY": 1,
+                         "key": "ground"
+                        },
+                        {"xOffset": -10,
+                         "yOffset": 300,
+                         "scaleX": 15,
+                         "scaleY": 0.5,
+                         "key": "ground"
+                        },
+                        {
+                         "xOffset": 200,
+                         "yOffset": 160,
+                         "scaleX": 50,
+                         "scaleY": 0.5,
+                         "key": "ground"}
+        ]
     }
 }
