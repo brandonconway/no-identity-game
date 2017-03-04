@@ -2,9 +2,7 @@
     "level": {
         "id": 2,
         "title": "Level 2",
-        "initial": {
-            "identity": 0
-        },
+        "identity_level": 2,
         "player": {
                 "can_jump": true,
                 "can_shoot": false,

@@ -99,6 +99,32 @@ class Game extends Phaser.Game {
         }
     }
 
+    addIdentityBar (identity_level) {
+        let x, y, width, height, text, style, i, bar;
+
+        style = {
+            font: "10px Arial",
+            fill: "#fff",
+            boundsAlignH: "center",
+            boundsAlignV: "middle"
+        };
+        x = 80;
+        y = 4;
+        width = 10;
+        height = 10;
+
+        text = this.add.text(x, y, "Identity level", style).anchor.set(1, 0);
+        x+=3;
+
+        for (i=0; i<identity_level; i++){
+            bar = this.add.graphics(1, 1);
+            bar.beginFill(0xFFFFFF);
+            bar.drawRect(x, y, width, height);
+            bar.endFill();
+            x+=width+1;
+        }
+    }
+
     addFullScreenButton () {
         if(!this.scale.isFullScreen) {
             var game;

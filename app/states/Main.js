@@ -6,12 +6,17 @@ class Main extends Phaser.State {
 
     init (level) {
         this.game.addFullScreenButton();
+        this.game.add.button(this.width-20, 0,
+                             'pauseButton',
+                             this.game.pauseGame, this
+                            );
         this.game.gravity = 1000; // will this change per stage?
         this.level = level;
         this.complete = false;
         this.backgroundColor = 'black'; // will this change per stage?
         console.log(this.level);
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
+        this.game.addIdentityBar(this.levelData.level.identity_level);
     }
 
     create() {
@@ -21,10 +26,6 @@ class Main extends Phaser.State {
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
         this.game.addTouch(this.game);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.game.add.button(this.width-20, 0,
-                             'pauseButton',
-                             this.game.pauseGame, this
-                            );
 
         win_text = new WinText(this);
         this.game.add.existing(win_text);
@@ -37,7 +38,7 @@ class Main extends Phaser.State {
         ground.scale.setTo(100, 1);
         ground.body.immovable = true;
 
-        ledge = this.platforms.create(-100, 125, 'ground');
+        ledge = this.platforms.create(-100, 135, 'ground');
         ledge.body.immovable = true;
         ledge.scale.setTo(20, 0.5);
         ledge = this.platforms.create(200, 275, 'ground');
@@ -74,6 +75,7 @@ class Main extends Phaser.State {
         // Music
         this.mainMusic = this.add.audio('mainMusic');
         this.mainMusic.loop = true;
+        this.mainMusic.stop();
         if(!this.mainMusic.isPlaying){
             this.mainMusic.play();
         }
