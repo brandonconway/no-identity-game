@@ -30,8 +30,6 @@ class IdentityPlayer extends Phaser.Sprite {
         }
     }
 
-    // non-collision updates could go here:
-
     update () {
         let cursors = this.game.cursors;
         if (cursors.left.isDown)

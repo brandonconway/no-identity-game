@@ -43,23 +43,20 @@ class Main extends Phaser.State {
             platformChild.body.immovable = true;
         });
 
-        if (this.levelData.level.group) {
+        if (this.levelData.level.followers) {
             // Group
-            this.game.groupers = this.game.add.group();
-            this.game.groupers.enableBody = true;
-            for (var i = 0; i < 6; i++)
+            this.game.followers = this.game.add.group();
+            this.game.followers.enableBody = true;
+            for (var i = 0; i < this.levelData.level.followers.number; i++)
             {
-                let grouper;
+                let follower;
                 x = 0 - (40 + i);
                 y = 0;
-                grouper = this.game.groupers.create(x, y, 'player');
-                grouper.body.bounce.y = 0.1;
-
+                follower = this.game.followers.create(x, y, 'player');
+                follower.enableBody = true;
+                follower.body.gravity.y = this.game.gravity;
             }
-            this.game.groupers.children.forEach((person, index)=>{
-                person.body.gravity.y = this.game.gravity;
-            });
-            this.game.physics.enable(this.game.groupers, Phaser.Physics.ARCADE);
+            this.game.physics.enable(this.game.followers, Phaser.Physics.ARCADE);
         }
 
         // Player
@@ -77,11 +74,12 @@ class Main extends Phaser.State {
 
         // Music
         this.mainMusic = this.add.audio('mainMusic');
-        this.mainMusic.loop = true;
         this.mainMusic.stop();
         if(!this.mainMusic.isPlaying){
+            this.mainMusic.loop = true;
             this.mainMusic.play();
         }
+        this.goalMusic = this.add.audio('goalMusic');
 
         //dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -92,32 +90,47 @@ class Main extends Phaser.State {
     }
 
     update () {
+
         this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
 
-        if (this.game.groupers) {
-            this.game.physics.arcade.collide(this.game.groupers, this.platforms);
-            // first grouper is slowest.
-            let slowest_grouper = this.game.groupers.children[0];
-            slowest_grouper = this.game.groupers.getFirstExists();
-            this.game.physics.arcade.collide(slowest_grouper, this.house, this.game.winLevel, null, this);
+        this.game.physics.arcade.collide(this.player,
+            this.house,
+            (player, house) => {
+                player.kill();
+                this.goalMusic.play();
+            },
+            null, this);
 
-            this.game.groupers.children.forEach((person, index)=>{
+        if (this.game.followers) {
+            this.game.physics.arcade.collide(this.game.followers, this.platforms);
+
+            // followers should follow player
+            this.game.followers.children.forEach((person, index)=>{
                 if (person.body.touching.down) {
-                    this.game.physics.arcade.moveToObject(person, this.player, 60+(index*10));
+                    this.game.physics.arcade.moveToObject(
+                        person, this.player, 60+(index*10));
                 }
             });
+
+            // level ends when slowest follower collides with goal
+            // first follower is slowest.
+            let slowest_follower = this.game.followers.children[0];
+            this.game.physics.arcade.collide(
+                slowest_follower,
+                this.house,
+                this.game.winLevel, null, this);
+
+            this.game.physics.arcade.collide(
+                this.game.followers,
+                this.house,
+                (house, follower) => {
+                    follower.kill();
+                    this.goalMusic.play();
+                },
+                null, this);
+
         }
-        /* make characters disappear when collide with house?
-        this.game.physics.arcade.collide(this.player,
-                                         this.house,
-                                         (player, house) => { player.kill();},
-                                         null, this);
-        this.game.physics.arcade.collide(this.game.groupers,
-                                         this.house,
-                                         (house, grouper) => { grouper.kill();},
-                                         null, this);
-        */
 
 
         //dev cheats

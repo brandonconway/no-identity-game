@@ -33,10 +33,12 @@ class Game extends Phaser.Game {
         // returns: a phaser game state
         if (!this.complete) {
             this.complete = true;
-            this.game.win_text.visible = true; // use WinText method
-            this.player.visible = false;
-            this.game.groupers.visible = false;
+            this.goalMusic.play();
+            this.mainMusic.loop = false;
             this.mainMusic.stop();
+            this.game.win_text.visible = true; // use WinText method
+            this.player.kill();
+            this.game.followers.visible = false;
             if (this.level + 1 > this.game.total_levels) {
                 setTimeout(() => {
                     this.state.start('MainMenu'); // Call EndGame state instead

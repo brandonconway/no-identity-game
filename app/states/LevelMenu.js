@@ -35,11 +35,6 @@ class LevelMenu extends Phaser.State {
 	}
 
 	startGame (level) {
-		this.mainMusic = this.add.audio('mainMusic');
-        this.mainMusic.loop = true;
-        if(!this.mainMusic.isPlaying){
-            this.mainMusic.play();
-        }
 		this.state.start('Main', true, false, this.level);
 	}
 

@@ -9,7 +9,7 @@
             "image": "player"
         },
         "enemies": null,
-        "group": true,
+        "followers": false,
         "platforms": [
                         {
                          "xOffset": -10,

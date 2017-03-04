@@ -8,7 +8,9 @@
             "can_shoot": false,
             "image": "player"
         },
-        "group": true,
+        "followers": {
+            "number": 7
+        },
         "enemies": null,
         "platforms": [
                         {
