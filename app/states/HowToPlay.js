@@ -20,21 +20,24 @@ class HowToPlay extends Phaser.State {
         playButton.scale.setTo(2, 2);
         playButton.anchor.set(0.5);
 
+        /* add pretty background image?
         var image = this.add.image(this.game.width/2-170,
                                    this.game.height/4+100,
                                    'player');
         image.anchor.set(0.5);
-        image.scale.setTo(0.6, 0.6);
-
+        */
         text = this.add.text(this.game.width/2,
                              this.game.height/4+100,
-                             "Guide all of your associates home",
+                             "Complete each level to discover your identity",
                              this.game.textStyle
                             ).anchor.set(0.5);
-        image = this.add.image(this.game.width-220,
-                               this.game.height/4+100,
-                               'house');
+
+        /* Add controls image (keyboard)
+        var image = this.add.image(this.game.width/2-170,
+            this.game.height/4+100,
+            'player');
         image.anchor.set(0.5);
+        */
         this.state.add('LevelMenu', LevelMenu);
 
 	}

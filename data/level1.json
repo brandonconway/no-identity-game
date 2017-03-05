@@ -12,6 +12,29 @@
             "number": 7
         },
         "enemies": null,
+        "instructions": {
+            "images": [
+                    {
+                     "key": "player",
+                     "position":
+                        {
+                         "x": 225,
+                         "y": 200
+                        },
+                      "scale": 0.6
+                    },
+                    {
+                     "key": "house",
+                     "position":
+                         {
+                          "x": 575,
+                          "y": 200
+                      },
+                      "scale": 1.2
+                    }
+            ],
+            "text": "Guide all of your followers home"
+        },
         "platforms": [
                         {
                          "xOffset": -10,
