@@ -10,6 +10,10 @@
         },
         "enemies": null,
         "followers": false,
+        "instructions": {
+            "images": [],
+            "text": "You can jump now. Get to it."
+        },
         "platforms": [
                         {
                          "xOffset": -10,

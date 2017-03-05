@@ -94,13 +94,6 @@ class Main extends Phaser.State {
         this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
 
-        this.game.physics.arcade.collide(this.player,
-            this.house,
-            (player, house) => {
-                player.kill();
-                this.goalMusic.play();
-            },
-            null, this);
 
         if (this.game.followers) {
             this.game.physics.arcade.collide(this.game.followers, this.platforms);
@@ -114,12 +107,23 @@ class Main extends Phaser.State {
             });
 
             // level ends when slowest follower collides with goal
+
+            this.game.physics.arcade.collide(this.player,
+                this.house,
+                (player, house) => {
+                    player.kill();
+                    this.goalMusic.play();
+                },
+                null, this);
+
+
             // first follower is slowest.
             let slowest_follower = this.game.followers.children[0];
             this.game.physics.arcade.collide(
                 slowest_follower,
                 this.house,
-                this.game.winLevel, null, this);
+                this.game.winLevel,
+                null, this);
 
             this.game.physics.arcade.collide(
                 this.game.followers,
@@ -131,7 +135,12 @@ class Main extends Phaser.State {
                 null, this);
 
         }
-
+        else {
+            this.game.physics.arcade.collide(
+                this.player,
+                this.house,
+                this.game.winLevel, null, this);
+        }
 
         //dev cheats
         if (this.levelButton1.isDown) {
@@ -150,6 +159,11 @@ class Main extends Phaser.State {
             this.state.start('LevelMenu', true, false, 5);
         }
 
+    }
+
+    shutdown () {
+        this.game.followers = null;
+        this.player.destroy();
     }
 
 }

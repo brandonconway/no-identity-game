@@ -28,7 +28,7 @@ class Game extends Phaser.Game {
         // returns: a phaser game state
     }
 
-    winLevel (player, goal) {
+    winLevel (collider, goal) {
         // Necessary logic when passing a level.
         // returns: a phaser game state
         if (!this.complete) {
@@ -38,7 +38,7 @@ class Game extends Phaser.Game {
             this.mainMusic.stop();
             this.game.win_text.visible = true; // use WinText method
             this.player.kill();
-            this.game.followers.visible = false;
+            collider.kill();
             if (this.level + 1 > this.game.total_levels) {
                 setTimeout(() => {
                     this.state.start('MainMenu'); // Call EndGame state instead
