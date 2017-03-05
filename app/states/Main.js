@@ -10,7 +10,7 @@ class Main extends Phaser.State {
                              'pauseButton',
                              this.game.pauseGame, this
                             );
-        this.game.gravity = 1000; // will this change per stage?
+        this.game.gravity = 1500; // will this change per stage?
         this.level = level;
         this.complete = false;
         this.backgroundColor = 'black'; // will this change per stage?
@@ -43,8 +43,8 @@ class Main extends Phaser.State {
             platformChild.body.immovable = true;
         });
 
+        // Followers
         if (this.levelData.level.followers) {
-            // Group
             this.game.followers = this.game.add.group();
             this.game.followers.enableBody = true;
             for (var i = 0; i < this.levelData.level.followers.number; i++)
@@ -55,6 +55,8 @@ class Main extends Phaser.State {
                 follower = this.game.followers.create(x, y, 'player');
                 follower.enableBody = true;
                 follower.body.gravity.y = this.game.gravity;
+                follower.body.bounce.y = 0.2
+                follower.body.collideWorldBounds = true;
             }
             this.game.physics.enable(this.game.followers, Phaser.Physics.ARCADE);
         }
@@ -81,7 +83,7 @@ class Main extends Phaser.State {
         }
         this.goalMusic = this.add.audio('goalMusic');
 
-        //dev keyboard cheats
+        // Dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.levelButton2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         this.levelButton3 = this.game.input.keyboard.addKey(Phaser.Keyboard.THREE);
@@ -99,19 +101,26 @@ class Main extends Phaser.State {
             this.game.physics.arcade.collide(this.game.followers, this.platforms);
 
             // followers should follow player
-            this.game.followers.children.forEach((person, index)=>{
-                if (person.body.touching.down) {
-                    this.game.physics.arcade.moveToObject(
-                        person, this.player, 60+(index*10));
+            this.game.followers.children.forEach((person, index) => {
+                if (!person.body.touching.down)  {
+                    person.let_bounce = true;
+                }
+                else if (person.body.touching.down) {
+                    if (person.let_bounce) {
+                        person.let_bounce = false;
+                    }
+                    else {
+                        this.game.physics.arcade.moveToXY(
+                            person, this.player.x-20, this.player.y, 70+(index*10));
+                    }
                 }
             });
-
             // level ends when slowest follower collides with goal
-
             this.game.physics.arcade.collide(this.player,
                 this.house,
                 (player, house) => {
-                    player.kill();
+                    player.visible = false;
+                    player.body.x +=5; // make sure the followers collide w/ goal
                     this.goalMusic.play();
                 },
                 null, this);
