@@ -1,0 +1,88 @@
+{
+    "level": {
+        "id": 2,
+        "title": "Level 2",
+        "identity_level": 2,
+        "player": {
+            "can_jump":true,
+            "can_shoot": false,
+            "image": "player"
+        },
+        "enemies": null,
+        "followers": {
+            "number": 7
+        },
+        "instructions": {
+            "images": [],
+            "text": "You can jump now. Get to it."
+        },
+        "goal": {
+            "xOffset": 790,
+            "yOffset": 80
+        },
+        "platforms": [
+                        {
+                         "xOffset": -10,
+                         "yOffset": 18,
+                         "scaleX": 40,
+                         "scaleY": 1,
+                         "key": "ground"
+                        },
+                        {
+                         "xOffset": 220,
+                         "yOffset": 470,
+                         "scaleX": 1,
+                         "scaleY": 25,
+                         "key": "ground"
+                        },
+                         {
+                          "xOffset": 230,
+                          "yOffset": 100,
+                          "scaleX": 14,
+                          "scaleY": 1,
+                          "key": "ground"
+                        },
+                        {
+                         "xOffset": 540,
+                         "yOffset": 300,
+                         "scaleX": 1,
+                         "scaleY": 28,
+                         "key": "ground"
+                       },
+                        {
+                         "xOffset": 460,
+                         "yOffset": 300,
+                         "scaleX": 20,
+                         "scaleY": 1,
+                         "key": "ground"
+                        }
+
+        ],
+        "portals": [
+            {
+                "x": 132,
+                "y": 429
+            },
+            {
+                "x": 250,
+                "y": 1
+            },
+            {
+                "x": 435,
+                "y": 349
+            },
+            {
+                "x": 565,
+                "y": 170
+            },
+            {
+                "x": 680,
+                "y": 429
+            },
+            {
+                "x": 500,
+                "y": 1
+            }
+        ]
+    }
+}

@@ -243,26 +243,33 @@ class Main extends Phaser.State {
     }
 
     teleport (playerish, portal) {
-        let lower, upper, tween, next_portal;
+        let lower, upper, tween, next_portal, next;
         lower = portal.x + portal.width/2 - portal.width * 0.1;
         upper = portal.x + portal.width/2 + portal.width * 0.1;
 
         if (lower <= playerish.x && playerish.x <= upper){
+            console.log('fff')
             if (!playerish.isTeleporting) {
                 playerish.isTeleporting = true;
                 playerish.can_move = false;
                 tween = this.game.add.tween(playerish).to(
                         { alpha: 0 },
-                        500, "Linear", true);
+                        300, "Linear", true);
 
                 tween.onComplete.add(()=>{
-                    next_portal = this.portals.getAt(portal.z+1)
-                    playerish.x = next_portal.x;
+                    next = portal.z+1;
+                    console.log(next)
+                    if (next == -1) {
+                        next = 0
+                    }
+                    next_portal = this.portals.getAt(next)
+                    playerish.x = next_portal.x + 15;
                     playerish.y = next_portal.top;
+                    playerish.isTeleporting = false;
                     playerish.can_move = true;
                     tween = this.game.add.tween(playerish).to(
                             { alpha: 1 },
-                            500, "Linear", true);
+                            300, "Linear", true);
                 }, this);
             }
 
