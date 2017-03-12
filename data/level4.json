@@ -1,0 +1,93 @@
+{
+    "level": {
+        "id": 4,
+        "title": "Level 4",
+        "identity_level": 4,
+        "player": {
+            "can_jump": true,
+            "can_shoot": true,
+            "image": "player"
+        },
+        "enemies": null,
+        "followers": {
+            "number": 5
+        },
+        "instructions": {
+            "images": [
+                {
+                 "key": "player_w_blast",
+                 "position":
+                    {
+                     "x": 300,
+                     "y": 240
+                    },
+                  "scale": 0.25
+              },
+              {
+               "key": "boar",
+               "position":
+                  {
+                   "x": 500,
+                   "y": 260
+                  },
+                "scale": 0.75
+              },
+              {
+               "key": "z_button",
+               "position":
+                  {
+                   "x": 400,
+                   "y": 440
+                  },
+                "scale": 0.25
+              }
+            ],
+            "text": "Destroy the boars before they eat you"
+        },
+        "goal": {
+            "xOffset": 790,
+            "yOffset": 80
+        },
+        "platforms": [
+                        {
+                         "xOffset": -10,
+                         "yOffset": 18,
+                         "scaleX": 40,
+                         "scaleY": 1,
+                         "key": "ground"
+                        },
+                         {
+                          "xOffset": 230,
+                          "yOffset": 60,
+                          "scaleX": 11,
+                          "scaleY": 1,
+                          "key": "ground"
+                        },
+                       {
+                        "xOffset": 480,
+                        "yOffset": 120,
+                        "scaleX": 11,
+                        "scaleY": 1,
+                        "key": "ground"
+                        },
+                        {
+                         "xOffset": 450,
+                         "yOffset": 310,
+                         "scaleX": 20,
+                         "scaleY": 1,
+                         "key": "ground"
+                        }
+        ],
+        "boars": [
+            {
+                "x": 340,
+                "y": 390
+            },
+            {
+                "x": 600,
+                "y": 330
+            }
+        ]
+
+    }
+}

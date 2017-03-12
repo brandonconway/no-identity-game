@@ -15,10 +15,10 @@ class IdentityPlayer extends Phaser.Sprite {
         this.anchor.set(0.5, 1);
         this.enableBody = true;
         this.can_move = true;
+        this.is_firing = false;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;
         this.body.bounce.x = 0.2;
-
         this.body.gravity.y = game.gravity;
         this.body.velocity.y = 0;
         this.body.collideWorldBounds = true;
@@ -35,6 +35,7 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     update () {
+
         let cursors = this.game.cursors;
         if (this.can_move) {
             if (cursors.left.isDown)
@@ -56,8 +57,11 @@ class IdentityPlayer extends Phaser.Sprite {
             else {
                 this.is_jumping = false;
             }
-            if (this.shootButton.isDown && this.can_shoot){
+            if (this.shootButton.isDown && this.can_shoot && !this.is_firing){
                 this.fireBlast();
+            }
+            if (this.shootButton.isUp && this.can_shoot) {
+                this.is_firing = false;
             }
         }
     }
@@ -80,8 +84,28 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     fireBlast () {
-        // create sprite groups
-        // add animations
+        /*if(!this.shoot_sound.isPlaying){
+           this.shoot_sound.play();
+       }*/
+       if (!this.is_firing) {
+           this.is_firing = true;
+           this.body.moves = false;
+           let tween, offsetY, size;
+           offsetY = 30; // move to circle in body
+           this.blast = this.game.add.sprite(this.body.center.x, this.body.y+offsetY, 'ground');
+           this.blast.scale.y = 0.5;
+           this.blast.enableBody = true;
+           this.game.physics.enable(this.blast, Phaser.Physics.ARCADE);
+           // try other easings?
+           size = this.scale.x * -20;
+           tween = this.game.add.tween(this.blast.scale).to(
+                   { x:  size},
+                   500, "Linear", true);
+           tween.onComplete.add(()=>{
+                this.blast.kill();
+                this.body.moves = true;
+            });
+        }
     }
 
 }

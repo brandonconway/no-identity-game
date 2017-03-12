@@ -249,6 +249,14 @@ class Main extends Phaser.State {
                 this.game.winLevel, null, this);
         }
 
+        // blasts
+        if (this.player.blast) {
+            this.game.physics.arcade.collide(
+                this.player.blast,
+                this.boars,
+                this.killBoar, null, this);
+        }
+
         //dev cheats
         if (this.levelButton1.isDown) {
             this.state.start('LevelMenu', true, false, 1);
@@ -294,6 +302,17 @@ class Main extends Phaser.State {
         boar.scale.x = -1*flip;
         //this.animations.play('walk')
         boar.body.velocity.x = flip * boar.velocity;
+    }
+
+    killBoar (blast, boar) {
+        // play sound, make animation
+        let tween;
+        tween = this.game.add.tween(boar).to(
+                { alpha:  0},
+                200, "Linear", true);
+        tween.onComplete.add(()=>{
+            boar.kill();
+        })
     }
 }
 
