@@ -45,7 +45,7 @@
             "text": "Destroy the boars before they eat you"
         },
         "goal": {
-            "xOffset": 775,
+            "xOffset": 770,
             "yOffset": 215
         },
         "platforms": [

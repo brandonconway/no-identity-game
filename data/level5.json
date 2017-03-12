@@ -1,0 +1,61 @@
+{
+    "level": {
+        "id": 5,
+        "title": "Level 5",
+        "identity_level": 5,
+        "player": {
+            "can_jump": true,
+            "can_shoot": true,
+            "image": "player"
+        },
+        "enemies": null,
+        "followers": {
+            "number": 5
+        },
+        "instructions": {
+            "images": [],
+            "text": "Watch out for the Wild Boar King"
+        },
+        "goal": {
+            "xOffset": 790,
+            "yOffset": 375
+        },
+        "platforms": [
+                        {
+                         "xOffset": -10,
+                         "yOffset": 15,
+                         "scaleX": 50,
+                         "scaleY": 1,
+                         "key": "ground"
+                        },
+                        {
+                         "xOffset": -50,
+                         "yOffset": 300,
+                         "scaleX": 25,
+                         "scaleY": 1,
+                         "key": "ground"
+                        },
+                        {
+                         "xOffset": 370,
+                         "yOffset": 160,
+                         "scaleX": 21,
+                         "scaleY": 1,
+                         "key": "ground"
+                     }
+        ],
+        "boars": [
+            {
+                "x": 300,
+                "y": 150
+            },
+            {
+                "x": 500,
+                "y": 290
+            }
+        ],
+        "wizard": {
+            "x": 130,
+            "y": 359
+        }
+    }
+}

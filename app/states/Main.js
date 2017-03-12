@@ -31,7 +31,8 @@ class Main extends Phaser.State {
         let x, y, win_text,
             ground, ledge,
             options, levelPlatforms,
-            goal_position, buffer;
+            goal_position, buffer,
+            wizard_data;
 
         // Basics
         this.game.stage.backgroundColor = this.backgroundColor;
@@ -79,8 +80,8 @@ class Main extends Phaser.State {
                 child.scale.set(0.75, 0.75);
                 child.anchor.set(0.5, 1);
                 child.enableBody = true;
-                child.body.velocity.x = -70;
-                child.velocity = 70;
+                child.body.velocity.x = -80;
+                child.velocity = 80;
                 child.body.bounce.x = 0.5;
             });
             this.game.physics.enable(this.boars, Phaser.Physics.ARCADE);
@@ -136,6 +137,15 @@ class Main extends Phaser.State {
         this.house.y = goal_position.yOffset;
         this.game.add.existing(this.house);
 
+        // Wizard
+        if (this.levelData.level.wizard) {
+            wizard_data = this.levelData.level.wizard;
+            this.wizard = this.game.add.sprite(wizard_data.x, wizard_data.y, 'boar');
+            this.wizard.scale.setTo(-1, 1);
+            this.wizard.enableBody = true;
+            this.game.physics.enable(this.wizard, Phaser.Physics.ARCADE);
+            // wizard needs to do blasting and killing
+        }
         // Music
         this.mainMusic = this.add.audio('mainMusic');
         if(!this.mainMusic.isPlaying){
@@ -222,8 +232,9 @@ class Main extends Phaser.State {
                 this.house,
                 (player, house) => {
                     player.visible = false;
-                    player.body.moves = false;
-                    player.body.x +=5; // make sure all followers collide w/ goal
+                    player.body.x += 5; // make sure all followers collide w/ goal
+                    player.can_jump = false;
+                    player.can_shoot = false;
                     this.goalMusic.play();
                 },
                 null, this);
@@ -256,7 +267,7 @@ class Main extends Phaser.State {
         // blasts
         if (this.player.blast) {
             this.game.physics.arcade.collide(
-                this.player.blast,
+                this.player.blast2,
                 this.boars,
                 this.killBoar, null, this);
         }
