@@ -9,7 +9,7 @@
             "image": "player"
         },
         "followers": {
-            "number": 7
+            "number": 5
         },
         "enemies": null,
         "instructions": {
@@ -35,6 +35,10 @@
             ],
             "text": "Guide all of your followers home"
         },
+        "goal": {
+            "xOffset": 790,
+            "yOffset": 375
+        },
         "platforms": [
                         {
                          "xOffset": -10,
@@ -44,7 +48,7 @@
                          "key": "ground"
                         },
                         {
-                         "xOffset": -10,
+                         "xOffset": -50,
                          "yOffset": 300,
                          "scaleX": 15,
                          "scaleY": 0.5,

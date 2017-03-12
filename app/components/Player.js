@@ -12,8 +12,10 @@ class IdentityPlayer extends Phaser.Sprite {
         super(game, x, y, image);
 
         game.physics.enable(this, Phaser.Physics.ARCADE);
-        this.anchor.set(0.5);
+        this.anchor.set(0.5, 1);
         this.enableBody = true;
+        this.can_move = true;
+        this.isTeleporting = false;
         this.body.bounce.y = 0.2;
         this.body.gravity.y = game.gravity;
         this.body.velocity.y = 0;
@@ -32,23 +34,29 @@ class IdentityPlayer extends Phaser.Sprite {
 
     update () {
         let cursors = this.game.cursors;
-        if (cursors.left.isDown)
-        {
-            this.moveLeft();
-        }
-        else if (cursors.right.isDown)
-        {
-            this.moveRight();
-        }
-        else {
-            this.body.velocity.x = 0;
-        }
+        if (this.can_move) {
+            if (cursors.left.isDown)
+            {
+                this.moveLeft();
+            }
+            else if (cursors.right.isDown)
+            {
+                this.moveRight();
+            }
+            else {
+                this.body.velocity.x = 0;
+            }
 
-        if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
-    	    this.jump();
-        }
-        if (this.shootButton.isDown && this.can_shoot){
-            this.fireBlast();
+            if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
+        	    this.jump();
+                this.is_jumping = true;
+            }
+            else {
+                this.is_jumping = false;
+            }
+            if (this.shootButton.isDown && this.can_shoot){
+                this.fireBlast();
+            }
         }
     }
 
@@ -65,7 +73,7 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     jump () {
-        this.body.velocity.y -= 350;
+        this.body.velocity.y -= 400;
         // add animations
     }
 

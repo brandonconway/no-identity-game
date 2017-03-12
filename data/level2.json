@@ -4,37 +4,66 @@
         "title": "Level 2",
         "identity_level": 2,
         "player": {
-            "can_jump": true,
+            "can_jump":true,
             "can_shoot": false,
             "image": "player"
         },
         "enemies": null,
-        "followers": false,
+        "followers": {
+            "number": 7
+        },
         "instructions": {
             "images": [],
             "text": "You can jump now. Get to it."
         },
+        "goal": {
+            "xOffset": 790,
+            "yOffset": 85
+        },
         "platforms": [
                         {
                          "xOffset": -10,
-                         "yOffset": 15,
+                         "yOffset": 20,
                          "scaleX": 40,
                          "scaleY": 1,
                          "key": "ground"
                         },
                         {
-                         "xOffset": -10,
-                         "yOffset": 300,
-                         "scaleX": 15,
+                         "xOffset": 80,
+                         "yOffset": 80,
+                         "scaleX": 10,
                          "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": 200,
-                         "yOffset": 160,
-                         "scaleX": 50,
+                         "yOffset": 140,
+                         "scaleX": 10,
                          "scaleY": 0.5,
-                         "key": "ground"}
+                         "key": "ground"
+                        },
+                        {
+                         "xOffset": 250,
+                         "yOffset": 190,
+                         "scaleX": 5,
+                         "scaleY": 0.5,
+                         "key": "ground"
+                         },
+                         {
+                          "xOffset": 350,
+                          "yOffset": 250,
+                          "scaleX": 10,
+                          "scaleY": 0.5,
+                          "key": "ground"
+                        },
+                        {
+                         "xOffset": 480,
+                         "yOffset": 305,
+                         "scaleX": 20,
+                         "scaleY": 0.5,
+                         "key": "ground"
+                        }
+
         ]
     }
 }

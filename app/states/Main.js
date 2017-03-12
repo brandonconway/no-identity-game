@@ -5,6 +5,12 @@ import {WinText} from "../Game.js"
 class Main extends Phaser.State {
 
     init (level) {
+        /*
+        * TODO:
+        * Move game-level attributes to the Game module
+        * Move reusable creation routines into either the Game module
+        * or into separate, relevant components
+        */
         this.game.addFullScreenButton();
         this.game.add.button(this.width-20, 0,
                              'pauseButton',
@@ -16,16 +22,22 @@ class Main extends Phaser.State {
         this.backgroundColor = 'black'; // will this change per stage?
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
         this.game.addIdentityBar(this.levelData.level.identity_level);
+        this.teleportHeight = 0;
     }
 
     create() {
-        let x, y, win_text, ground, ledge, options, levelPlatforms;
+        let x, y, win_text,
+            ground, ledge,
+            options, levelPlatforms,
+            goal_position, buffer;
 
+        // Basics
         this.game.stage.backgroundColor = this.backgroundColor;
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
         this.game.addTouch(this.game);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        // Text
         win_text = new WinText(this);
         this.game.add.existing(win_text);
         this.game.win_text = win_text;
@@ -43,6 +55,22 @@ class Main extends Phaser.State {
             platformChild.body.immovable = true;
         });
 
+        // Portals
+        if (this.levelData.level.portals) {
+            let portals, child, portal_circle, portal_sprite;
+            portals = this.levelData.level.portals;
+            this.portals = this.game.add.group();
+            this.portals.enableBody = true;
+            portals.forEach((portal)=>{
+                child = this.portals.create(portal.x, portal.y, "portal")
+                child.body.immovable = true;
+                child.scale.set(0.25, 0.25);
+                child.anchor.set(0, 0);
+            });
+            this.game.physics.enable(this.portals, Phaser.Physics.ARCADE);
+
+        }
+
         // Followers
         if (this.levelData.level.followers) {
             this.game.followers = this.game.add.group();
@@ -57,6 +85,8 @@ class Main extends Phaser.State {
                 follower.body.gravity.y = this.game.gravity;
                 follower.body.bounce.y = 0.2
                 follower.body.collideWorldBounds = true;
+                follower.isTeleporting = false;
+                follower.anchor.setTo(0.5, 0);
             }
             this.game.physics.enable(this.game.followers, Phaser.Physics.ARCADE);
         }
@@ -69,14 +99,14 @@ class Main extends Phaser.State {
         this.game.add.existing(this.player);
 
         // Goal (house)
-        x = this.game.width * 0.97;
-        y = this.game.world.height - 77;
-        this.house = new Goal(this.game, x, y, 'house');
+        goal_position = this.levelData.level.goal;
+        this.house = new Goal(this.game, 0, 0, 'house');
+        this.house.x = goal_position.xOffset;
+        this.house.y = goal_position.yOffset;
         this.game.add.existing(this.house);
 
         // Music
         this.mainMusic = this.add.audio('mainMusic');
-        this.mainMusic.stop();
         if(!this.mainMusic.isPlaying){
             this.mainMusic.loop = true;
             this.mainMusic.play();
@@ -96,22 +126,59 @@ class Main extends Phaser.State {
         this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
 
+        if (this.portals) {
+            this.game.physics.arcade.overlap(
+                this.player,
+                this.portals,
+                this.teleport,
+                null, this
+            );
+            this.game.physics.arcade.overlap(
+                this.game.followers,
+                this.portals,
+                this.teleport,
+                null, this
+            );
+        }
 
         if (this.game.followers) {
             this.game.physics.arcade.collide(this.game.followers, this.platforms);
-
             // followers should follow player
             this.game.followers.children.forEach((person, index) => {
+               var next_person = index +1;
+                if (next_person > this.game.followers.length-1) {
+                    next_person = this.player;
+                }
+                else {
+                    next_person = this.game.followers.getAt(next_person);
+                }
+                /*
+                person.tween = this.game.add.tween(person).to(
+                        { x: next_person.x },
+                        100+(index*10),
+                        "Linear", false);
+                person.tween.stop();*/
+
                 if (!person.body.touching.down)  {
                     person.let_bounce = true;
+                    //person.tween.stop();
+                    if (this.player.can_jump) {
+                        person.body.velocity.x = -10 * this.player.scale.x;
+                    }
                 }
                 else if (person.body.touching.down) {
-                    if (person.let_bounce) {
+
+
+                    if (this.player.is_jumping) {
+                        person.body.velocity.y -= 400;
+                    }
+                    else if (person.let_bounce) {
                         person.let_bounce = false;
                     }
                     else {
-                        this.game.physics.arcade.moveToXY(
-                            person, this.player.x-20, this.player.y, 70+(index*10));
+                        //person.tween.start();
+                        this.game.physics.arcade.moveToObject(
+                            person, this.player, 60+(index*15));
                     }
                 }
             });
@@ -173,6 +240,34 @@ class Main extends Phaser.State {
     shutdown () {
         this.game.followers = null;
         this.player.destroy();
+    }
+
+    teleport (playerish, portal) {
+        let lower, upper, tween, next_portal;
+        lower = portal.x + portal.width/2 - portal.width * 0.1;
+        upper = portal.x + portal.width/2 + portal.width * 0.1;
+
+        if (lower <= playerish.x && playerish.x <= upper){
+            if (!playerish.isTeleporting) {
+                playerish.isTeleporting = true;
+                playerish.can_move = false;
+                tween = this.game.add.tween(playerish).to(
+                        { alpha: 0 },
+                        500, "Linear", true);
+
+                tween.onComplete.add(()=>{
+                    next_portal = this.portals.getAt(portal.z+1)
+                    playerish.x = next_portal.x;
+                    playerish.y = next_portal.top;
+                    playerish.can_move = true;
+                    tween = this.game.add.tween(playerish).to(
+                            { alpha: 1 },
+                            500, "Linear", true);
+                }, this);
+            }
+
+        }
+
     }
 
 }
