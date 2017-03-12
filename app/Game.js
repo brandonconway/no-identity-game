@@ -1,4 +1,5 @@
 import {MainMenu} from "./states/MainMenu.js"
+import {Main} from "./states/Main.js"
 
 // Game class
 
@@ -55,6 +56,22 @@ class Game extends Phaser.Game {
     completeGame () {
         // Necessary logic when completing game.
         // returns: a phaser game state
+    }
+
+    restartLevel (level, state) {
+        // tween?
+        // flash Message
+        let text;
+        text = this.add.text(400, 40, 'you lose', this.textStyle);
+        state.player.kill();
+        if (this.followers) {
+            this.followers.visible = false;
+            this.followers = null;
+        }
+        setTimeout(() => {
+            this.state.start('Main', true, false, level);
+            text.destroy();
+        }, 1000);
     }
 
     addTouch(game) {

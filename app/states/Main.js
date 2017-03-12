@@ -192,10 +192,10 @@ class Main extends Phaser.State {
                     person.let_bounce = true;
                     if (this.player.can_jump) {
                         if (person.x > this.player.x) {
-                            person.body.velocity.x = -10 * 1;
+                            person.body.velocity.x = -15 * 1;
                         }
                         else if (person.x < this.player.x){
-                            person.body.velocity.x = -10 * -1;
+                            person.body.velocity.x = -15 * -1;
                         }
                         else {
                             person.body.velocity.x = 0;
@@ -204,7 +204,7 @@ class Main extends Phaser.State {
                 }
                 else if (person.body.touching.down) {
                     if (this.player.is_jumping) {
-                        person.body.velocity.y -= 400;
+                        person.body.velocity.y -= 420;
                     }
                     else if (person.let_bounce) {
                         person.let_bounce = false;
@@ -212,7 +212,7 @@ class Main extends Phaser.State {
                     else if (this.player.y > person.y){
                     //else{
                         this.game.physics.arcade.moveToObject(
-                            person, this.player, 60+(index*15));
+                            person, this.player, 60+(index*10));
                     }
                 }
             });
@@ -222,6 +222,7 @@ class Main extends Phaser.State {
                 this.house,
                 (player, house) => {
                     player.visible = false;
+                    player.body.moves = false;
                     player.body.x +=5; // make sure all followers collide w/ goal
                     this.goalMusic.play();
                 },
@@ -298,12 +299,14 @@ class Main extends Phaser.State {
         this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
         this.identity_bar.text.destroy();
         this.identity_level -= 1;
-        console.log(this.identity_level)
-
+        if (this.identity_level <= 0) {
+            this.game.restartLevel(this.level, this);
+        }
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
         // alpha tween? animation?
         this.ouchSound.play();
         this.bounceBack(boar, playerish);
+        // hacky bounce back. not sure why collide isn't working right
         if (playerish.body.touching.right) {
             playerish.body.x -= 5;
         }
