@@ -21,7 +21,9 @@ class Main extends Phaser.State {
         this.complete = false;
         this.backgroundColor = 'black'; // will this change per stage?
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
-        this.game.addIdentityBar(this.levelData.level.identity_level);
+        this.identity_level = this.levelData.level.identity_level;
+        this.identity_bar = this.game.addIdentityBar(this.identity_level);
+        console.log(this.identity_bar);
         this.teleportHeight = 0;
     }
 
@@ -79,6 +81,7 @@ class Main extends Phaser.State {
                 child.enableBody = true;
                 child.body.velocity.x = -70;
                 child.velocity = 70;
+                child.body.bounce.x = 0.5;
             });
             this.game.physics.enable(this.boars, Phaser.Physics.ARCADE);
         }
@@ -283,7 +286,7 @@ class Main extends Phaser.State {
 
     boarCollide (playerish, boar) {
         //playerish.kill();
-        let tween;
+        let tween, hit;
         tween = this.game.add.tween(playerish).to(
                 { alpha: 0 },
                 20, "Linear", true);
@@ -292,9 +295,21 @@ class Main extends Phaser.State {
                         { alpha: 1 },
                         20, "Linear", true);
                 });
+        this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
+        this.identity_bar.text.destroy();
+        this.identity_level -= 1;
+        console.log(this.identity_level)
+
+        this.identity_bar = this.game.addIdentityBar(this.identity_level);
         // alpha tween? animation?
         this.ouchSound.play();
-
+        this.bounceBack(boar, playerish);
+        if (playerish.body.touching.right) {
+            playerish.body.x -= 5;
+        }
+        else if (playerish.body.touching.left) {
+            playerish.body.x += 5;
+        }
     }
 
     bounceBack (boar, bouncer) {

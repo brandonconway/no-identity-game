@@ -18,9 +18,10 @@ class IdentityPlayer extends Phaser.Sprite {
         this.is_firing = false;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;
-        this.body.bounce.x = 0.2;
+        this.body.bounce.x = 1;
         this.body.gravity.y = game.gravity;
         this.body.velocity.y = 0;
+        this.velocity = 50;
         this.body.collideWorldBounds = true;
         this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);

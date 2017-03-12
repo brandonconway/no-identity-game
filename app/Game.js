@@ -102,8 +102,11 @@ class Game extends Phaser.Game {
     }
 
     addIdentityBar (identity_level) {
-        let x, y, width, height, text, style, i, bar;
+        // this should extend sprite
+        let x, y, width, height, text, style, i, bar, identity_bar;
 
+        identity_bar = {};
+        identity_bar.bar = [];
         style = {
             font: "10px Arial",
             fill: "#fff",
@@ -115,8 +118,10 @@ class Game extends Phaser.Game {
         width = 10;
         height = 10;
 
-        text = this.add.text(x, y, "Identity level", style).anchor.set(1, 0);
+        identity_bar.text = new Phaser.Text(this, x, y, "Identity level", style);
+        identity_bar.text.anchor.set(1, 0);
         x+=3;
+        this.add.existing(identity_bar.text);
 
         for (i=0; i<identity_level; i++){
             bar = this.add.graphics(1, 1);
@@ -124,7 +129,9 @@ class Game extends Phaser.Game {
             bar.drawRect(x, y, width, height);
             bar.endFill();
             x+=width+1;
+            identity_bar.bar.push(bar);
         }
+        return identity_bar;
     }
 
     addFullScreenButton () {
