@@ -1,20 +1,30 @@
 {
     "level": {
-        "id": 2,
-        "title": "Level 2",
-        "identity_level": 2,
+        "id": 3,
+        "title": "Level 3",
+        "identity_level": 3,
         "player": {
-            "can_jump":true,
+            "can_jump": true,
             "can_shoot": false,
             "image": "player"
         },
         "enemies": null,
         "followers": {
-            "number": 7
+            "number": 5
         },
         "instructions": {
-            "images": [],
-            "text": "You can jump now. Get to it."
+            "images": [
+                {
+                 "key": "portal",
+                 "position":
+                    {
+                     "x": 400,
+                     "y": 225
+                    },
+                  "scale": 0.25
+                }
+            ],
+            "text": "Use the portals to move around the level"
         },
         "goal": {
             "xOffset": 790,
@@ -38,20 +48,27 @@
                          {
                           "xOffset": 230,
                           "yOffset": 100,
-                          "scaleX": 14,
+                          "scaleX": 11,
                           "scaleY": 1,
                           "key": "ground"
                         },
                         {
-                         "xOffset": 540,
+                         "xOffset": 480,
                          "yOffset": 300,
                          "scaleX": 1,
                          "scaleY": 28,
                          "key": "ground"
                        },
+                       {
+                        "xOffset": 480,
+                        "yOffset": 150,
+                        "scaleX": 9,
+                        "scaleY": 1,
+                        "key": "ground"
+                        },
                         {
-                         "xOffset": 460,
-                         "yOffset": 300,
+                         "xOffset": 450,
+                         "yOffset": 310,
                          "scaleX": 20,
                          "scaleY": 1,
                          "key": "ground"
@@ -68,15 +85,15 @@
                 "y": 1
             },
             {
-                "x": 435,
+                "x": 400,
                 "y": 349
             },
             {
-                "x": 565,
-                "y": 170
+                "x": 510,
+                "y": 160
             },
             {
-                "x": 680,
+                "x": 510,
                 "y": 429
             },
             {

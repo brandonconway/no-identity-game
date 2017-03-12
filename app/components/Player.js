@@ -61,13 +61,13 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     moveRight () {
-        this.body.velocity.x = 70;
+        this.body.velocity.x = 60;
         this.scale.x = -1;
         // add animations
     }
 
     moveLeft () {
-        this.body.velocity.x = -70;
+        this.body.velocity.x = -60;
         this.scale.x = 1;
         // add animations
     }

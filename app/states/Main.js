@@ -163,7 +163,12 @@ class Main extends Phaser.State {
                     person.let_bounce = true;
                     //person.tween.stop();
                     if (this.player.can_jump) {
-                        person.body.velocity.x = -10 * this.player.scale.x;
+                        if (person.x > this.player.x) {
+                            person.body.velocity.x = -10 * -1;
+                        }
+                        else {
+                            person.body.velocity.x = -10 * -1;
+                        }
                     }
                 }
                 else if (person.body.touching.down) {
@@ -175,10 +180,11 @@ class Main extends Phaser.State {
                     else if (person.let_bounce) {
                         person.let_bounce = false;
                     }
-                    else {
+                    else if (this.player.y > person.y){
+                    //else{
                         //person.tween.start();
                         this.game.physics.arcade.moveToObject(
-                            person, this.player, 60+(index*15));
+                            person, this.player, 60+(index*20));
                     }
                 }
             });
@@ -263,7 +269,7 @@ class Main extends Phaser.State {
                         next = 0
                     }
                     next_portal = this.portals.getAt(next)
-                    playerish.x = next_portal.x + 15;
+                    playerish.x = next_portal.x + 20;
                     playerish.y = next_portal.top;
                     playerish.isTeleporting = false;
                     playerish.can_move = true;
