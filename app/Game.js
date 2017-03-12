@@ -166,6 +166,38 @@ class Game extends Phaser.Game {
         }
     }
 
+    teleport (playerish, portal) {
+        let lower, upper, tween, next_portal, next;
+        lower = portal.x + portal.width/2 - portal.width * 0.1;
+        upper = portal.x + portal.width/2 + portal.width * 0.1;
+
+        if (lower <= playerish.x && playerish.x <= upper){
+            if (!playerish.isTeleporting) {
+                playerish.isTeleporting = true;
+                playerish.can_move = false;
+                tween = this.game.add.tween(playerish).to(
+                        { alpha: 0 },
+                        300, "Linear", true);
+
+                tween.onComplete.add(()=>{
+                    next = portal.z+1;
+                    if (next == -1) {
+                        next = 0
+                    }
+                    next_portal = this.portals.getAt(next)
+                    playerish.x = next_portal.x + 20;
+                    playerish.y = next_portal.top;
+                    playerish.isTeleporting = false;
+                    playerish.can_move = true;
+                    tween = this.game.add.tween(playerish).to(
+                            { alpha: 1 },
+                            300, "Linear", true);
+                }, this);
+            }
+        }
+
+    }
+
 }
 
 class WinText extends Phaser.Text {

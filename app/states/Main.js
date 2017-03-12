@@ -44,6 +44,8 @@ class Main extends Phaser.State {
 
         // Platforms
         this.platforms = this.game.add.group();
+        this.bouncers = this.game.add.group();
+        this.bouncers.enableBody = true;
         this.platforms.enableBody = true;
         levelPlatforms = this.levelData.level.platforms;
         levelPlatforms.forEach((platform)=> {
@@ -53,7 +55,33 @@ class Main extends Phaser.State {
             platformChild = this.platforms.create(x, y, platform.key);
             platformChild.scale.setTo(platform.scaleX, platform.scaleY);
             platformChild.body.immovable = true;
+            // add bouncers (Invisible collide sprites)
+            this.bouncers.create(platformChild.right, platformChild.top, null);
+            this.bouncers.create(platformChild.left, platformChild.top, null);
         });
+        this.bouncers.forEach((bouncer)=>{
+            bouncer.anchor.setTo(0.5, 1);
+            bouncer.enableBody = true;
+            bouncer.body.immovable = true;
+            bouncer.scale.setTo(0.5, 0.25);
+        })
+
+        // boars
+        if (this.levelData.level.boars) {
+            let boars, child;
+            boars = this.levelData.level.boars;
+            this.boars = this.game.add.group();
+            this.boars.enableBody = true;
+            boars.forEach((boar)=>{
+                child = this.boars.create(boar.x, boar.y, "boar")
+                child.scale.set(0.75, 0.75);
+                child.anchor.set(0.5, 1);
+                child.enableBody = true;
+                child.body.velocity.x = -70;
+                child.velocity = 70;
+            });
+            this.game.physics.enable(this.boars, Phaser.Physics.ARCADE);
+        }
 
         // Portals
         if (this.levelData.level.portals) {
@@ -112,6 +140,8 @@ class Main extends Phaser.State {
             this.mainMusic.play();
         }
         this.goalMusic = this.add.audio('goalMusic');
+        this.ouchSound = this.add.audio('ouchSound');
+
 
         // Dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -122,58 +152,54 @@ class Main extends Phaser.State {
     }
 
     update () {
-
-        this.player.body.velocity.x = 0;
         this.game.physics.arcade.collide(this.player, this.platforms);
 
+        // boars
+        if (this.boars) {
+            this.game.physics.arcade.collide(this.player, this.boars,
+                this.boarCollide, null, this);
+            this.game.physics.arcade.collide(this.boars, this.bouncers,
+                this.bounceBack, null, this);
+        }
+        // Portals
         if (this.portals) {
             this.game.physics.arcade.overlap(
                 this.player,
                 this.portals,
-                this.teleport,
+                this.game.teleport,
                 null, this
             );
             this.game.physics.arcade.overlap(
                 this.game.followers,
                 this.portals,
-                this.teleport,
+                this.game.teleport,
                 null, this
             );
         }
 
+        // Followers
         if (this.game.followers) {
-            this.game.physics.arcade.collide(this.game.followers, this.platforms);
-            // followers should follow player
+            this.game.physics.arcade.collide(
+                this.game.followers,
+                this.platforms
+            );
+            // player follow logic
             this.game.followers.children.forEach((person, index) => {
-               var next_person = index +1;
-                if (next_person > this.game.followers.length-1) {
-                    next_person = this.player;
-                }
-                else {
-                    next_person = this.game.followers.getAt(next_person);
-                }
-                /*
-                person.tween = this.game.add.tween(person).to(
-                        { x: next_person.x },
-                        100+(index*10),
-                        "Linear", false);
-                person.tween.stop();*/
-
                 if (!person.body.touching.down)  {
                     person.let_bounce = true;
-                    //person.tween.stop();
                     if (this.player.can_jump) {
                         if (person.x > this.player.x) {
+                            person.body.velocity.x = -10 * 1;
+                        }
+                        else if (person.x < this.player.x){
                             person.body.velocity.x = -10 * -1;
                         }
                         else {
-                            person.body.velocity.x = -10 * -1;
+                            person.body.velocity.x = 0;
                         }
                     }
                 }
                 else if (person.body.touching.down) {
-
-
                     if (this.player.is_jumping) {
                         person.body.velocity.y -= 400;
                     }
@@ -182,22 +208,21 @@ class Main extends Phaser.State {
                     }
                     else if (this.player.y > person.y){
                     //else{
-                        //person.tween.start();
                         this.game.physics.arcade.moveToObject(
-                            person, this.player, 60+(index*20));
+                            person, this.player, 60+(index*15));
                     }
                 }
             });
+
             // level ends when slowest follower collides with goal
             this.game.physics.arcade.collide(this.player,
                 this.house,
                 (player, house) => {
                     player.visible = false;
-                    player.body.x +=5; // make sure the followers collide w/ goal
+                    player.body.x +=5; // make sure all followers collide w/ goal
                     this.goalMusic.play();
                 },
                 null, this);
-
 
             // first follower is slowest.
             let slowest_follower = this.game.followers.children[0];
@@ -248,41 +273,28 @@ class Main extends Phaser.State {
         this.player.destroy();
     }
 
-    teleport (playerish, portal) {
-        let lower, upper, tween, next_portal, next;
-        lower = portal.x + portal.width/2 - portal.width * 0.1;
-        upper = portal.x + portal.width/2 + portal.width * 0.1;
-
-        if (lower <= playerish.x && playerish.x <= upper){
-            console.log('fff')
-            if (!playerish.isTeleporting) {
-                playerish.isTeleporting = true;
-                playerish.can_move = false;
-                tween = this.game.add.tween(playerish).to(
-                        { alpha: 0 },
-                        300, "Linear", true);
-
-                tween.onComplete.add(()=>{
-                    next = portal.z+1;
-                    console.log(next)
-                    if (next == -1) {
-                        next = 0
-                    }
-                    next_portal = this.portals.getAt(next)
-                    playerish.x = next_portal.x + 20;
-                    playerish.y = next_portal.top;
-                    playerish.isTeleporting = false;
-                    playerish.can_move = true;
-                    tween = this.game.add.tween(playerish).to(
-                            { alpha: 1 },
-                            300, "Linear", true);
-                }, this);
-            }
-
-        }
+    boarCollide (playerish, boar) {
+        //playerish.kill();
+        let tween;
+        tween = this.game.add.tween(playerish).to(
+                { alpha: 0 },
+                20, "Linear", true);
+        tween.onComplete.add(()=>{
+                this.game.add.tween(playerish).to(
+                        { alpha: 1 },
+                        20, "Linear", true);
+                });
+        // alpha tween? animation?
+        this.ouchSound.play();
 
     }
 
+    bounceBack (boar, bouncer) {
+        let flip = boar.scale.x;
+        boar.scale.x = -1*flip;
+        //this.animations.play('walk')
+        boar.body.velocity.x = flip * boar.velocity;
+    }
 }
 
 export { Main };

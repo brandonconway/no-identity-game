@@ -17,6 +17,8 @@ class IdentityPlayer extends Phaser.Sprite {
         this.can_move = true;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;
+        this.body.bounce.x = 0.2;
+
         this.body.gravity.y = game.gravity;
         this.body.velocity.y = 0;
         this.body.collideWorldBounds = true;
