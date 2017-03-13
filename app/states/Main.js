@@ -160,15 +160,6 @@ class Main extends Phaser.State {
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
         // Music
-        /*
-        this.mainMusic = this.add.audio('mainMusic');
-        this.mainMusic.stop();
-
-        if(!this.mainMusic.isPlaying){
-            this.mainMusic.loop = true;
-            this.mainMusic.play();
-        }
-        */
         this.goalMusic = this.add.audio('goalMusic');
         this.ouchSound = this.add.audio('ouchSound');
 
@@ -308,7 +299,7 @@ class Main extends Phaser.State {
         // blasts
         if (this.player.blast) {
             this.game.physics.arcade.collide(
-                this.player.blast2,
+                this.player.blast,
                 this.boars,
                 this.killBoar, null, this);
         }
@@ -335,7 +326,6 @@ class Main extends Phaser.State {
     shutdown () {
         this.game.followers = null;
         this.player.destroy();
-        this.mainMusic.stop();
     }
 
     boarCollide (playerish, boar) {

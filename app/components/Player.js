@@ -93,28 +93,19 @@ class IdentityPlayer extends Phaser.Sprite {
            this.body.moves = false;
            let tween, offsetY, size;
            offsetY = 30; // move to circle in body
-           this.blast = this.game.add.sprite(this.body.center.x, this.body.y+offsetY, 'ground');
-           this.blast.scale.y = 0.5;
+           this.blast = this.game.add.sprite(this.body.center.x, this.body.y, 'blast');
+           this.blast.scale.setTo(0.5, 0.5);
+
            this.blast.enableBody = true;
            this.game.physics.enable(this.blast, Phaser.Physics.ARCADE);
            // try other easings?
-           size = this.scale.x * -20;
+           size = this.scale.x * -2;
            tween = this.game.add.tween(this.blast.scale).to(
                    { x:  size},
-                   500, "Linear", true);
+                   380, "Linear", true);
 
-           this.blast2 = this.game.add.sprite(this.body.center.x,
-               this.body.y+(offsetY/2), 'ground');
-           this.blast2.scale.y = 3;
-           this.blast2.enableBody = true;
-           this.game.physics.enable(this.blast2, Phaser.Physics.ARCADE);
-           // try other easings?
-           tween = this.game.add.tween(this.blast2).to(
-                   { x:  this.x + this.scale.x * -450},
-                   500, "Linear", true);
            tween.onComplete.add(()=>{
                 this.blast.kill();
-                this.blast2.kill();
                 this.body.moves = true;
             });
         }
