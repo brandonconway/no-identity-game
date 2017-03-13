@@ -161,6 +161,8 @@ class Main extends Phaser.State {
         }
         // Music
         this.mainMusic = this.add.audio('mainMusic');
+        this.mainMusic.stop();
+
         if(!this.mainMusic.isPlaying){
             this.mainMusic.loop = true;
             this.mainMusic.play();

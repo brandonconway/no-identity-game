@@ -63,7 +63,6 @@ class Game extends Phaser.Game {
         // flash Message
         let text;
         text = this.add.text(400, 40, 'you lose', this.textStyle);
-        this.mainMusic.stop();
         state.player.kill();
         if (this.followers) {
             this.followers.visible = false;
