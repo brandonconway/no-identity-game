@@ -12,7 +12,7 @@ class Main extends Phaser.State {
         * or into separate, relevant components
         */
         this.game.addFullScreenButton();
-        this.game.add.button(this.width-20, 0,
+        this.pauseButton = this.game.add.button(this.width-20, 0,
                              'pauseButton',
                              this.game.pauseGame, this
                             );
@@ -160,6 +160,7 @@ class Main extends Phaser.State {
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
         // Music
+        /*
         this.mainMusic = this.add.audio('mainMusic');
         this.mainMusic.stop();
 
@@ -167,6 +168,7 @@ class Main extends Phaser.State {
             this.mainMusic.loop = true;
             this.mainMusic.play();
         }
+        */
         this.goalMusic = this.add.audio('goalMusic');
         this.ouchSound = this.add.audio('ouchSound');
 

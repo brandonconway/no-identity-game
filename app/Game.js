@@ -179,14 +179,15 @@ class Game extends Phaser.Game {
     }
 
     unPauseGame (button) {
+        // replace with big play button and "Paused text"
         if (this.game.paused) {
             var clicked_unpause = this.unPauseButton.getBounds()
                 .contains(this.game.input.x, this.game.input.y)
 
             if (clicked_unpause) {
                 this.game.paused = false;
+                this.unPauseButton.destroy();
             }
-            this.unPauseButton.destroy();
         }
     }
 
