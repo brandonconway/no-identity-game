@@ -120,6 +120,17 @@ class IdentityPlayer extends Phaser.Sprite {
         }
     }
 
+    doDamage () {
+        this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
+        this.identity_bar.text.destroy();
+        this.identity_level -= 1;
+        if (this.identity_level <= 0) {
+            this.game.restartLevel(this.level, this);
+        }
+        this.identity_bar = this.game.addIdentityBar(this.identity_level);
+        // alpha tween? animation?
+        this.ouchSound.play();
+    }
 }
 
 

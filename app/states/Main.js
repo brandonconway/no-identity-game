@@ -23,7 +23,6 @@ class Main extends Phaser.State {
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
         this.identity_level = this.levelData.level.identity_level;
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
-        console.log(this.identity_bar);
         this.teleportHeight = 0;
     }
 
@@ -145,6 +144,20 @@ class Main extends Phaser.State {
             this.wizard.enableBody = true;
             this.game.physics.enable(this.wizard, Phaser.Physics.ARCADE);
             // wizard needs to do blasting and killing
+            this.wizard_blasts = this.game.add.group();
+            this.wizard_blasts.createMultiple(7, "ground", null, true);
+            this.game.physics.enable(this.wizard_blasts, Phaser.Physics.ARCADE);
+            this.wizard_blasts.children.forEach((blast, index)=>{
+                blast.enableBody =true;
+                blast.x = this.wizard.x-10;
+                blast.y = this.wizard.y;
+                blast.body.velocity.x = 325;
+                blast.scale.setTo(0.5, 0.5);
+
+                var r = Math.random() * 2 - 1;
+                blast.body.gravity.y = 70 * r;
+            });
+            this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
         // Music
         this.mainMusic = this.add.audio('mainMusic');
@@ -173,6 +186,28 @@ class Main extends Phaser.State {
                 this.boarCollide, null, this);
             this.game.physics.arcade.collide(this.boars, this.bouncers,
                 this.bounceBack, null, this);
+        }
+
+        // Wizard
+        if (this.wizard) {
+            this.wizard_blasts.children.forEach((blast)=>{
+                if (blast.body.x > this.game.width) {
+                    blast.body.x = this.wizard.x-10;
+                    blast.body.y = this.wizard.y;
+                }
+            });
+            this.game.physics.arcade.collide(
+                this.player,
+                this.wizard_blasts,
+                this.player.doDamage,
+                null, this
+            );
+            this.game.physics.arcade.collide(
+                this.game.followers,
+                this.wizard_blasts,
+                this.player.doDamage,
+                null, this
+            );
         }
         // Portals
         if (this.portals) {
@@ -235,7 +270,9 @@ class Main extends Phaser.State {
                     player.body.x += 5; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
-                    this.goalMusic.play();
+                    if (!this.goalMusic.isPlaying) {
+                        this.goalMusic.play();
+                    }
                 },
                 null, this);
 
@@ -294,10 +331,10 @@ class Main extends Phaser.State {
     shutdown () {
         this.game.followers = null;
         this.player.destroy();
+        this.mainMusic.stop();
     }
 
     boarCollide (playerish, boar) {
-        //playerish.kill();
         let tween, hit;
         tween = this.game.add.tween(playerish).to(
                 { alpha: 0 },
@@ -307,6 +344,7 @@ class Main extends Phaser.State {
                         { alpha: 1 },
                         20, "Linear", true);
                 });
+
         this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
         this.identity_bar.text.destroy();
         this.identity_level -= 1;
