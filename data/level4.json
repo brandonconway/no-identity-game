@@ -45,8 +45,9 @@
             "text": "Destroy the boars before they eat you. Use your super blast (press Z)"
         },
         "goal": {
-            "xOffset": 770,
-            "yOffset": 215
+            "xOffset": 320,
+            "yOffset": 92,
+            "scale": -1
         },
         "platforms": [
                         {
@@ -71,12 +72,22 @@
                         "key": "ground"
                         },
                         {
-                         "xOffset": 630,
-                         "yOffset": 180,
-                         "scaleX": 7,
+                         "xOffset": 300,
+                         "yOffset": 300,
+                         "scaleX": 24,
                          "scaleY": 1,
                          "key": "ground"
                      }
+        ],
+        "portals": [
+            {
+                "x": 630,
+                "y": 430
+            },
+            {
+                "x": 650,
+                "y": 1
+            }
         ],
         "boars": [
             {

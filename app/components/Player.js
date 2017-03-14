@@ -15,6 +15,7 @@ class IdentityPlayer extends Phaser.Sprite {
         this.anchor.set(0.5, 1);
         this.enableBody = true;
         this.can_move = true;
+        this.scale.x = -1;
         this.is_firing = false;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;

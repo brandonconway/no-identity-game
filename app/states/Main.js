@@ -115,6 +115,7 @@ class Main extends Phaser.State {
                 follower.enableBody = true;
                 follower.body.gravity.y = this.game.gravity;
                 follower.body.bounce.y = 0.2
+                follower.scale.x = -1;
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
                 follower.anchor.setTo(0.5, 0);
@@ -128,12 +129,15 @@ class Main extends Phaser.State {
         options = this.levelData.level.player;
         this.player = new IdentityPlayer(this.game, x, y, 'player', options);
         this.game.add.existing(this.player);
+        this.game.player = this.player;
 
         // Goal (house)
         goal_position = this.levelData.level.goal;
-        this.house = new Goal(this.game, 0, 0, 'house');
-        this.house.x = goal_position.xOffset;
-        this.house.y = goal_position.yOffset;
+        this.house = new Goal(this.game,
+            goal_position.xOffset, goal_position.yOffset, 'house');
+        if (goal_position.scale) {
+            this.house.scale.x *= goal_position.scale;
+        }
         this.game.add.existing(this.house);
 
         // Wizard
@@ -159,10 +163,18 @@ class Main extends Phaser.State {
             });
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
+
         // Music
         this.goalMusic = this.add.audio('goalMusic');
+        this.goalMusic.volume = 0.5;
         this.ouchSound = this.add.audio('ouchSound');
+        this.mainMusic = this.add.audio('mainMusic');
+        this.mainMusic.stop();
 
+        if(!this.mainMusic.isPlaying){
+            this.mainMusic.loop = true;
+            this.mainMusic.play();
+        }
 
         // Dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -262,7 +274,7 @@ class Main extends Phaser.State {
                 this.house,
                 (player, house) => {
                     player.visible = false;
-                    player.body.x += 5; // make sure all followers collide w/ goal
+                    player.body.x += player.scale.x * -5; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
                     if (!this.goalMusic.isPlaying) {
@@ -326,6 +338,7 @@ class Main extends Phaser.State {
     shutdown () {
         this.game.followers = null;
         this.player.destroy();
+        this.mainMusic.stop();
     }
 
     boarCollide (playerish, boar) {
