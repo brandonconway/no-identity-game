@@ -39,10 +39,7 @@ class Main extends Phaser.State {
         this.game.addTouch(this.game);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        // Text
-        win_text = new WinText(this);
-        this.game.add.existing(win_text);
-        this.game.win_text = win_text;
+
 
         // Platforms
         // TODO: each of these sections could be moved to a component module
@@ -193,7 +190,11 @@ class Main extends Phaser.State {
             this.mainMusic.loop = true;
             this.mainMusic.play();
         }
-
+        // Text
+        win_text = new WinText(this);
+        this.game.add.existing(win_text);
+        this.game.win_text = win_text;
+        
         // Dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.levelButton2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);

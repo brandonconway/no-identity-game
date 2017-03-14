@@ -283,6 +283,7 @@ class WinText extends Phaser.Text {
         super(game, x, y, text, style);
         this.visible = false;
         this.anchor.set(0.5);
+        this.setShadow(2, 2, 'rgba(0,0,0,1)', 0);
     }
 }
 
