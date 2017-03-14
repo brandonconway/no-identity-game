@@ -18,8 +18,9 @@ class Preloader extends Phaser.State  {
 
 
         this.load.audio('mainMusic', ['assets/audio/main.m4a']);
-        this.load.audio('goalMusic', ['assets/audio/goal.mp3']);
-        this.load.audio('ouchSound', ['assets/audio/ouch.mp3']);
+        this.load.audio('goalMusic', ['assets/audio/goal.m4a']);
+        this.load.audio('ouchSound', ['assets/audio/ouch.m4a']);
+        this.load.audio('blastSound', ['assets/audio/blast.m4a']);
 
     	//this.background = this.add.sprite(0, 0, 'preloaderBackground');
 	    this.preloadBar = this.add.sprite(100, 100, 'preloaderBar');
