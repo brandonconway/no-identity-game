@@ -42,7 +42,7 @@
                 "scale": 0.25
               }
             ],
-            "text": "Destroy the boars before they eat you. Use your super blast (press Z)"
+            "text": "Destroy the boars before they eat you.\n  (press Z or tap enemy to fire)"
         },
         "goal": {
             "xOffset": 320,
