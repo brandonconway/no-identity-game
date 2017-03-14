@@ -36,7 +36,7 @@ class Main extends Phaser.State {
         // Basics
         this.game.stage.backgroundColor = this.backgroundColor;
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
-        this.game.addTouch(this.game);
+        this.game.addTouch(this.game, this.level);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
@@ -178,7 +178,7 @@ class Main extends Phaser.State {
             });
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
-        if (this.game.device.touch && this.boars) {
+        if (this.game.device.touch && this.boars && this.player.can_shoot) {
             this.boars.children.forEach((child)=>{
                 child.inputEnabled = true;
                 child.events.onInputDown.add(this.player.fireBlast, this.player);

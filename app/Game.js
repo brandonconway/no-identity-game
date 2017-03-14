@@ -75,13 +75,14 @@ class Game extends Phaser.Game {
         }, 1000);
     }
 
-    addTouch(game) {
+    addTouch(game, level) {
         let cursors, rightButton, leftButton,
             jumpButton, shootButton;
 
         cursors = game.cursors;
 
         if (game.device.touch) {
+            this.levelData = game.cache.getJSON(`level${level}`);
 
             leftButton = this.add.sprite(
                 40, game.height/2, 'playButton');
@@ -103,27 +104,28 @@ class Game extends Phaser.Game {
                 'cursors': cursors}
             );
             rightButton.events.onInputUp.add(onUp, {'cursors': cursors});
+            if (this.levelData.level.player.can_jump) {
+                jumpButton = this.add.sprite(
+                    game.width-40, game.height/2+10, 'playButton');
+                jumpButton.inputEnabled = true;
+                jumpButton.scale.setTo(2,2);
+                jumpButton.anchor.y = 1;
+                jumpButton.angle = -90;
+                jumpButton.events.onInputDown.add(onDown,
+                    {'direction': 'jump'}
+                );
+                jumpButton.events.onInputUp.add(stopJump);
 
-            jumpButton = this.add.sprite(
-                game.width-40, game.height/2+10, 'playButton');
-            jumpButton.inputEnabled = true;
-            jumpButton.scale.setTo(2,2);
-            jumpButton.anchor.y = 1;
-            jumpButton.angle = -90;
-            jumpButton.events.onInputDown.add(onDown,
-                {'direction': 'jump'}
-            );
-            jumpButton.events.onInputUp.add(stopJump);
-
-            jumpButton = this.add.sprite(
-                40, game.height/2+10, 'playButton');
-            jumpButton.inputEnabled = true;
-            jumpButton.scale.setTo(2,2);
-            jumpButton.angle = -90;
-            jumpButton.events.onInputDown.add(onDown,
-                {'direction': 'jump'}
-            );
-            jumpButton.events.onInputUp.add(stopJump);
+                jumpButton = this.add.sprite(
+                    40, game.height/2+10, 'playButton');
+                jumpButton.inputEnabled = true;
+                jumpButton.scale.setTo(2,2);
+                jumpButton.angle = -90;
+                jumpButton.events.onInputDown.add(onDown,
+                    {'direction': 'jump'}
+                );
+                jumpButton.events.onInputUp.add(stopJump);
+            }
             /*
             shootButton = this.add.sprite(
                 40, game.height/2, 'playButton');
