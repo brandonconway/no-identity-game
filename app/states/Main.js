@@ -178,7 +178,12 @@ class Main extends Phaser.State {
             });
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
-
+        if (this.game.device.touch && this.boars) {
+            this.boars.children.forEach((child)=>{
+                child.inputEnabled = true;
+                child.events.onInputDown.add(this.player.fireBlast, this.player);
+            });
+        }
         // Music
         this.goalMusic = this.add.audio('goalMusic');
         this.goalMusic.volume = 0.5;

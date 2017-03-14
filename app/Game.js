@@ -84,11 +84,10 @@ class Game extends Phaser.Game {
         if (game.device.touch) {
 
             leftButton = this.add.sprite(
-                game.width-40, game.height/2, 'playButton');
+                40, game.height/2, 'playButton');
             leftButton.inputEnabled = true;
-            leftButton.scale.setTo(2,2);
+            leftButton.scale.setTo(2,3);
             leftButton.scale.x *= -1;
-
             leftButton.events.onInputDown.add(onDown,
                 {'direction': 'left',
                 'cursors': cursors}
@@ -98,7 +97,7 @@ class Game extends Phaser.Game {
             rightButton = this.add.sprite(
                 game.width-40, game.height/2, 'playButton');
             rightButton.inputEnabled = true;
-            rightButton.scale.setTo(2,2);
+            rightButton.scale.setTo(2,3);
             rightButton.events.onInputDown.add(onDown,
                 {'direction': 'right',
                 'cursors': cursors}
@@ -106,15 +105,26 @@ class Game extends Phaser.Game {
             rightButton.events.onInputUp.add(onUp, {'cursors': cursors});
 
             jumpButton = this.add.sprite(
-                game.left, game.height/2, 'playButton');
+                game.width-40, game.height/2+10, 'playButton');
             jumpButton.inputEnabled = true;
             jumpButton.scale.setTo(2,2);
+            jumpButton.anchor.y = 1;
+            jumpButton.angle = -90;
             jumpButton.events.onInputDown.add(onDown,
                 {'direction': 'jump'}
             );
             jumpButton.events.onInputUp.add(stopJump);
 
-
+            jumpButton = this.add.sprite(
+                40, game.height/2+10, 'playButton');
+            jumpButton.inputEnabled = true;
+            jumpButton.scale.setTo(2,2);
+            jumpButton.angle = -90;
+            jumpButton.events.onInputDown.add(onDown,
+                {'direction': 'jump'}
+            );
+            jumpButton.events.onInputUp.add(stopJump);
+            /*
             shootButton = this.add.sprite(
                 40, game.height/2, 'playButton');
             shootButton.inputEnabled = true;
@@ -123,6 +133,7 @@ class Game extends Phaser.Game {
                 {'direction': 'shoot'}
             );
             shootButton.events.onInputUp.add(stopShoot);
+            */
         }
 
         function onDown(sprite, pointer) {
