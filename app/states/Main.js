@@ -194,7 +194,7 @@ class Main extends Phaser.State {
         win_text = new WinText(this);
         this.game.add.existing(win_text);
         this.game.win_text = win_text;
-        
+
         // Dev keyboard cheats
         this.levelButton1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.levelButton2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);
