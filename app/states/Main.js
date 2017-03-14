@@ -45,6 +45,7 @@ class Main extends Phaser.State {
         this.game.win_text = win_text;
 
         // Platforms
+        // TODO: each of these sections could be moved to a component module
         this.platforms = this.game.add.group();
         this.bouncers = this.game.add.group();
         this.bouncers.enableBody = true;
@@ -88,19 +89,36 @@ class Main extends Phaser.State {
 
         // Portals
         if (this.levelData.level.portals) {
-            let portals, child, portal_circle, portal_sprite;
+            let portals, child, silent;
             portals = this.levelData.level.portals;
             this.portals = this.game.add.group();
             this.portals.enableBody = true;
+            this.silent_portals = this.game.add.group();
+            this.silent_portals.enableBody = true;
+
             portals.forEach((portal)=>{
                 child = this.portals.create(portal.x, portal.y, "portal")
+                child.enableBody = true;
                 child.body.immovable = true;
                 child.scale.set(0.25, 0.25);
                 child.anchor.set(0, 0);
+                // make invisble portals to block underneath.
+                silent = this.silent_portals.create(portal.x, portal.y+5, "portal")
+                silent.visible = false;
+                silent.enableBody = true;
+                silent.body.immovable = true;
+                silent.scale.set(0.25, 0.25);
+                silent.anchor.set(0, 0);
+                silent.body.checkCollision.up = false;
+                silent.body.checkCollision.down = true;
+                silent.body.checkCollision.top = false;
+                silent.body.checkCollision.top = false;
             });
-            this.game.physics.enable(this.portals, Phaser.Physics.ARCADE);
 
+            this.game.physics.enable(this.portals, Phaser.Physics.ARCADE);
+            this.game.physics.enable(this.silent_portals, Phaser.Physics.ARCADE);
         }
+
 
         // Followers
         if (this.levelData.level.followers) {
@@ -217,7 +235,7 @@ class Main extends Phaser.State {
             );
         }
         // Portals
-        if (this.portals) {
+        if (this.portals && this.game.followers) {
             this.game.physics.arcade.overlap(
                 this.player,
                 this.portals,
@@ -229,6 +247,14 @@ class Main extends Phaser.State {
                 this.portals,
                 this.game.teleport,
                 null, this
+            );
+            this.game.physics.arcade.collide(
+                this.game.followers,
+                this.silent_portals,
+            );
+            this.game.physics.arcade.collide(
+                this.player,
+                this.silent_portals,
             );
         }
 
