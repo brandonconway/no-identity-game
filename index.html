@@ -9,7 +9,7 @@
 	<body>
 	  <div id="game-container"></div>
 
-		<script src="./node_modules/phaser/build/phaser.min.js"></script>
+		<!--script src="./node_modules/phaser/build/phaser.min.js"></script>
   	    <script src="./node_modules/core-js/client/shim.min.js"></script>
 		<script src="./node_modules/systemjs/dist/system.src.js"></script>
 		<script src="./systemjs.config.js"></script>
@@ -17,13 +17,16 @@
 			System.import('./app/main.js').catch(function (error) {
 				console.error(error);
 			});
-		</script>
+		</script-->
 		<script>
-		  // TODO: this should really only be done on iOS
-			(function(){window.PhaserGlobal = { disableWebAudio: true };})();
+			(function(){
+				 if (navigator.userAgent.indexOf("iPhone") !== -1) {
+			      window.PhaserGlobal = { disableWebAudio: true };
+				 }
+			})();
 		</script>
 
-		<!--script src="phaser.min.js"></script>
-		<script src="outfile.js"></script-->
+		<script src="phaser.min.js"></script>
+		<script src="outfile.js"></script>
 	</body>
 </html>

@@ -326,6 +326,7 @@ class Main extends Phaser.State {
                     player.body.x += player.scale.x * -5; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
+                    player.can_move = false;
                     if (!this.goalMusic.isPlaying) {
                         this.goalMusic.play();
                     }

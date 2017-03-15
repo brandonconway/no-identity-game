@@ -84,9 +84,9 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     jump () {
-        if(!this.jumpSound.isPlaying){
+        //if(!this.jumpSound.isPlaying){
            this.jumpSound.play();
-        }
+        //}
         this.body.velocity.y -= 400;
         // add animations
     }

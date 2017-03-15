@@ -57,6 +57,7 @@ class LevelMenu extends Phaser.State {
 	}
 
 	startGame (level) {
+		//amazing iOS audio hack
 		this.startMusic = this.add.audio('mainMusic');
 		this.startMusic.volume = 0;
         this.startMusic.play();
@@ -65,6 +66,27 @@ class LevelMenu extends Phaser.State {
 		this.startMusic.volume = 0;
         this.startMusic.play();
         this.startMusic.stop();
+		this.startMusic = this.add.audio('playerOuchSound');
+		this.startMusic.volume = 0;
+        this.startMusic.play();
+        this.startMusic.stop();
+		this.startMusic = this.add.audio('boarOuchSound');
+		this.startMusic.volume = 0;
+        this.startMusic.play();
+        this.startMusic.stop();
+		this.startMusic = this.add.audio('jumpSound');
+		this.startMusic.volume = 0;
+        this.startMusic.play();
+        this.startMusic.stop();
+		this.startMusic = this.add.audio('blastSound');
+		this.startMusic.volume = 0;
+        this.startMusic.play();
+        this.startMusic.stop();
+		this.startMusic = this.add.audio('teleportSound');
+		this.startMusic.volume = 0;
+        this.startMusic.play();
+        this.startMusic.stop();
+
 		this.state.start('Main', true, false, this.level);
 	}
 
