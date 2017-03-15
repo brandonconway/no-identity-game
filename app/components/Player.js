@@ -34,11 +34,13 @@ class IdentityPlayer extends Phaser.Sprite {
                 this.can_jump = options.can_jump;
             }
         }
+        this.shoot_sound = this.game.add.audio("blastSound");
     }
 
     update () {
 
         let cursors = this.game.cursors;
+        console.log(`is_firing: ${this.is_firing}`);
         if (this.can_move) {
             if (cursors.left.isDown)
             {
@@ -63,7 +65,7 @@ class IdentityPlayer extends Phaser.Sprite {
                 this.fireBlast();
             }
             if (this.shootButton.isUp && this.can_shoot) {
-                this.is_firing = false;
+                //this.is_firing = false;
             }
         }
     }
@@ -86,10 +88,11 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     fireBlast () {
-        /*if(!this.shoot_sound.isPlaying){
-           this.shoot_sound.play();
-       }*/
        if (!this.is_firing) {
+           if(!this.shoot_sound.isPlaying){
+              this.shoot_sound.play();
+           }
+
            this.is_firing = true;
            this.body.moves = false;
            let tween, offsetY, size;
@@ -107,12 +110,14 @@ class IdentityPlayer extends Phaser.Sprite {
 
            tween.onComplete.add(()=>{
                 this.blast.kill();
+                this.is_firing = false;
                 this.body.moves = true;
             });
         }
     }
 
-    doDamage () {
+    doDamage (player, bullet) {
+        bullet.kill();
         this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
         this.identity_bar.text.destroy();
         this.identity_level -= 1;

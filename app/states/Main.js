@@ -166,16 +166,16 @@ class Main extends Phaser.State {
             this.wizard_blasts = this.game.add.group();
             this.wizard_blasts.createMultiple(7, "ground", null, true);
             this.game.physics.enable(this.wizard_blasts, Phaser.Physics.ARCADE);
+
             this.wizard_blasts.children.forEach((blast, index)=>{
                 blast.enableBody =true;
                 blast.x = this.wizard.x-10;
                 blast.y = this.wizard.y;
                 blast.body.velocity.x = 325;
                 blast.scale.setTo(0.5, 0.5);
-
-                var r = Math.random() * 2 - 1;
+                let r = Math.random() * 2 - 1;
                 blast.body.gravity.y = 70 * r;
-            });
+                });
             this.wizard_blasts.setAll('outOfBoundsKill', true);
         }
         if (this.game.device.touch && this.boars && this.player.can_shoot) {
@@ -226,6 +226,10 @@ class Main extends Phaser.State {
                     blast.body.x = this.wizard.x-10;
                     blast.body.y = this.wizard.y;
                 }
+
+                if (this.wizard_blasts.children.length < 1) {
+                    console.log('call rebuild')
+                }
             });
             this.game.physics.arcade.collide(
                 this.player,
@@ -237,6 +241,15 @@ class Main extends Phaser.State {
                 this.game.followers,
                 this.wizard_blasts,
                 this.player.doDamage,
+                null, this
+            );
+            this.game.physics.arcade.collide(
+                this.player.blast,
+                this.wizard_blasts,
+                (pblast, wblast) => {
+                    wblast.kill();
+                    pblast.kill()
+                },
                 null, this
             );
         }
@@ -415,7 +428,7 @@ class Main extends Phaser.State {
         let tween;
         tween = this.game.add.tween(boar).to(
                 { alpha:  0},
-                200, "Linear", true);
+                300, "Linear", true);
         tween.onComplete.add(()=>{
             boar.kill();
         })
