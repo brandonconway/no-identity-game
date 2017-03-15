@@ -195,6 +195,10 @@ class Main extends Phaser.State {
             this.mainMusic.loop = true;
             this.mainMusic.play();
         }
+        this.game.teleportSound = this.game.add.audio("teleportSound");
+        this.playerOuchSound = this.game.add.audio("playerOuchSound");
+        this.boarOuchSound = this.game.add.audio("boarOuchSound");
+
         // Text
         win_text = new WinText(this);
         this.game.add.existing(win_text);
@@ -396,7 +400,9 @@ class Main extends Phaser.State {
                         { alpha: 1 },
                         20, "Linear", true);
                 });
-
+        if(!this.playerOuchSound.isPlaying){
+           this.playerOuchSound.play();
+        }
         this.identity_bar.bar.forEach((bar)=> {bar.destroy()})
         this.identity_bar.text.destroy();
         this.identity_level -= 1;
@@ -425,6 +431,9 @@ class Main extends Phaser.State {
 
     killBoar (blast, boar) {
         // play sound, make animation
+        if(!this.boarOuchSound.isPlaying){
+           this.boarOuchSound.play();
+        }
         let tween;
         tween = this.game.add.tween(boar).to(
                 { alpha:  0},

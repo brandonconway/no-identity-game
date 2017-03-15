@@ -34,7 +34,8 @@ class IdentityPlayer extends Phaser.Sprite {
                 this.can_jump = options.can_jump;
             }
         }
-        this.shoot_sound = this.game.add.audio("blastSound");
+        this.shootSound = this.game.add.audio("blastSound");
+        this.jumpSound = this.game.add.audio("jumpSound");
     }
 
     update () {
@@ -83,14 +84,17 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     jump () {
+        if(!this.jumpSound.isPlaying){
+           this.jumpSound.play();
+        }
         this.body.velocity.y -= 400;
         // add animations
     }
 
     fireBlast () {
        if (!this.is_firing) {
-           if(!this.shoot_sound.isPlaying){
-              this.shoot_sound.play();
+           if(!this.shootSound.isPlaying){
+              this.shootSound.play();
            }
 
            this.is_firing = true;
@@ -126,7 +130,9 @@ class IdentityPlayer extends Phaser.Sprite {
         }
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
         // alpha tween? animation?
-        this.ouchSound.play();
+        if(!this.playerOuchSound.isPlaying){
+           this.playerOuchSound.play();
+        }
     }
 }
 

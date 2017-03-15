@@ -258,7 +258,9 @@ class Game extends Phaser.Game {
                 tween = this.game.add.tween(playerish).to(
                         { alpha: 0 },
                         300, "Linear", true);
-
+                if(!this.game.teleportSound.isPlaying){
+                   this.game.teleportSound.play();
+                }
                 tween.onComplete.add(()=>{
                     next = portal.z+1;
                     if (next == -1) {
