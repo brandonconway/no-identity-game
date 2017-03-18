@@ -97,13 +97,12 @@ class IdentityPlayer extends Phaser.Sprite {
        if (!this.is_firing) {
 
            this.shootSound.play();
-
-
            this.is_firing = true;
            this.body.moves = false;
            let tween, offsetY, size;
            offsetY = 30; // move to circle in body
-           this.blast = this.game.make.sprite(this.body.center.x, this.body.y, 'blast');
+           this.blast = this.game.make.sprite(this.body.center.x,
+               this.body.y-10, 'blast');
            this.blast.scale.setTo(0.5, 0.5);
            this.blast.scale.x *= -1 * this.scale.x;
            this.game.add.existing(this.blast);
@@ -113,7 +112,7 @@ class IdentityPlayer extends Phaser.Sprite {
            size = this.scale.x * -2;
            tween = this.game.add.tween(this.blast.scale).to(
                    { x:  size},
-                   380, "Linear", true);
+                   420, "Linear", true);
 
            tween.onComplete.add(()=>{
                 this.blast.kill();

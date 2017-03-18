@@ -350,7 +350,7 @@ class Main extends Phaser.State {
                     else if (this.player.y > person.y){
                     //else{
                         this.game.physics.arcade.moveToObject(
-                            person, this.player, 60+(index*10));
+                            person, this.player, 50+(index*15));
                     }
                 }
             });
