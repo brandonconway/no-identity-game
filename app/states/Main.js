@@ -160,31 +160,42 @@ class Main extends Phaser.State {
             wizard_data = this.levelData.level.wizard;
             this.wizard = this.game.add.sprite(wizard_data.x, wizard_data.y, 'boar');
             this.wizard.scale.setTo(-1, 1);
-            this.wizard.enableBody = true;
+            this.wizard.health = 10;
             this.game.physics.enable(this.wizard, Phaser.Physics.ARCADE);
+            this.wizard.enableBody = true;
             // wizard needs to do blasting and killing
-            this.wizard_blasts = this.game.add.group();
-            this.wizard_blasts.createMultiple(7, "ground", null, true);
-            this.game.physics.enable(this.wizard_blasts, Phaser.Physics.ARCADE);
+            this.create_wizard_blasts = () => {
+                this.wizard_blasts = this.game.add.group();
+                this.wizard_blasts.createMultiple(3, "snow", null, true);
+                this.game.physics.enable(this.wizard_blasts, Phaser.Physics.ARCADE);
 
-            this.wizard_blasts.children.forEach((blast, index)=>{
-                blast.enableBody =true;
-                blast.x = this.wizard.x-10;
-                blast.y = this.wizard.y;
-                blast.body.velocity.x = 325;
-                blast.scale.setTo(0.5, 0.5);
-                let r = Math.random() * 2 - 1;
-                blast.body.gravity.y = 70 * r;
-                });
-            this.wizard_blasts.setAll('outOfBoundsKill', true);
+                this.wizard_blasts.children.forEach((blast, index)=>{
+                    blast.enableBody =true;
+                    blast.x = this.wizard.x-10;
+                    blast.y = this.wizard.y;
+                    blast.body.velocity.x = 300;
+                    blast.scale.setTo(0.1, 0.1);
+                    let r = Math.random() * 2 - 1;
+                    blast.body.gravity.y = 200 * r;
+                    });
+                this.wizard_blasts.setAll('outOfBoundsKill', true);
+            }
+            this.create_wizard_blasts();
+            // shoot wizard by tapping on phones
+            if (this.game.device.touch && this.wizard && this.player.can_shoot) {
+                    this.wizard.inputEnabled = true;
+                    this.wizard.events.onInputDown.add(this.player.fireBlast, this.player);
+            }
         }
+
+        // shoot boars by tapping on phones
         if (this.game.device.touch && this.boars && this.player.can_shoot) {
             this.boars.children.forEach((child)=>{
                 child.inputEnabled = true;
                 child.events.onInputDown.add(this.player.fireBlast, this.player);
             });
         }
-        // Music
+        // Music and sounds
         this.goalMusic = this.add.audio('goalMusic');
         this.goalMusic.volume = 0.5;
         this.ouchSound = this.add.audio('ouchSound');
@@ -198,6 +209,8 @@ class Main extends Phaser.State {
         this.game.teleportSound = this.game.add.audio("teleportSound");
         this.playerOuchSound = this.game.add.audio("playerOuchSound");
         this.boarOuchSound = this.game.add.audio("boarOuchSound");
+        this.game.teleportSound.volume = 0.9;
+        this.playerOuchSound.volume =  0.6;
 
         // Text
         win_text = new WinText(this);
@@ -230,9 +243,11 @@ class Main extends Phaser.State {
                     blast.body.x = this.wizard.x-10;
                     blast.body.y = this.wizard.y;
                 }
-
+                // inseatd use get alive?
                 if (this.wizard_blasts.children.length < 1) {
-                    console.log('call rebuild')
+                    // rebuild blasts or charge?
+                    console.log('out')
+                    this.create_wizard_blasts();
                 }
             });
             this.game.physics.arcade.collide(
@@ -250,12 +265,34 @@ class Main extends Phaser.State {
             this.game.physics.arcade.collide(
                 this.player.blast,
                 this.wizard_blasts,
-                (pblast, wblast) => {
+                (wblast, pblast) => {
                     wblast.kill();
-                    pblast.kill()
                 },
                 null, this
             );
+            this.game.physics.arcade.collide(
+                this.player.blast,
+                this.wizard,
+                (blast, wizard)=>{
+                    blast.kill();
+                    wizard.damage(1);
+                    // if health is 0 play death sound.
+                    if(!this.boarOuchSound.isPlaying){
+                       this.boarOuchSound.play();
+                    }
+                    let tween = this.game.add.tween(wizard).to(
+                            { alpha: 0 },
+                            100, "Linear", true);
+                    tween.onComplete.add(()=>{
+                            this.game.add.tween(wizard).to(
+                                    { alpha: 1 },
+                                    100, "Linear", true);
+                    });
+                },
+                null, this
+            );
+
+            this.game.physics.arcade.collide(this.wizard_blasts, this.platforms);
         }
         // Portals
         if (this.portals && this.game.followers) {
@@ -326,7 +363,6 @@ class Main extends Phaser.State {
                     player.body.x += player.scale.x * -5; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
-                    player.can_move = false;
                     if (!this.goalMusic.isPlaying) {
                         this.goalMusic.play();
                     }
@@ -395,11 +431,11 @@ class Main extends Phaser.State {
         let tween, hit;
         tween = this.game.add.tween(playerish).to(
                 { alpha: 0 },
-                20, "Linear", true);
+                100, "Linear", true);
         tween.onComplete.add(()=>{
                 this.game.add.tween(playerish).to(
                         { alpha: 1 },
-                        20, "Linear", true);
+                        100, "Linear", true);
                 });
         if(!this.playerOuchSound.isPlaying){
            this.playerOuchSound.play();

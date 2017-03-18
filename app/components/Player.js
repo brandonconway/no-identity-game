@@ -35,13 +35,15 @@ class IdentityPlayer extends Phaser.Sprite {
             }
         }
         this.shootSound = this.game.add.audio("blastSound");
+        this.shootSound.volume = 0.4;
         this.jumpSound = this.game.add.audio("jumpSound");
+        this.jumpSound.volume = 0.5;
+
     }
 
     update () {
 
         let cursors = this.game.cursors;
-        console.log(`is_firing: ${this.is_firing}`);
         if (this.can_move) {
             if (cursors.left.isDown)
             {
@@ -93,17 +95,18 @@ class IdentityPlayer extends Phaser.Sprite {
 
     fireBlast () {
        if (!this.is_firing) {
-           if(!this.shootSound.isPlaying){
-              this.shootSound.play();
-           }
+
+           this.shootSound.play();
+
 
            this.is_firing = true;
            this.body.moves = false;
            let tween, offsetY, size;
            offsetY = 30; // move to circle in body
-           this.blast = this.game.add.sprite(this.body.center.x, this.body.y, 'blast');
+           this.blast = this.game.make.sprite(this.body.center.x, this.body.y, 'blast');
            this.blast.scale.setTo(0.5, 0.5);
-
+           this.blast.scale.x *= -1 * this.scale.x;
+           this.game.add.existing(this.blast);
            this.blast.enableBody = true;
            this.game.physics.enable(this.blast, Phaser.Physics.ARCADE);
            // try other easings?
