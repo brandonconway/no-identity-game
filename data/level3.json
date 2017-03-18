@@ -41,7 +41,7 @@
                         {
                          "xOffset": 220,
                          "yOffset": 470,
-                         "scaleX": 1,
+                         "scaleX": 0.5,
                          "scaleY": 25,
                          "key": "ground"
                         },
@@ -55,7 +55,7 @@
                         {
                          "xOffset": 480,
                          "yOffset": 300,
-                         "scaleX": 1,
+                         "scaleX": 0.5,
                          "scaleY": 28,
                          "key": "ground"
                        },
@@ -78,7 +78,7 @@
         "portals": [
             {
                 "x": 132,
-                "y": 430
+                "y": 431
             },
             {
                 "x": 250,
@@ -94,7 +94,7 @@
             },
             {
                 "x": 510,
-                "y": 430
+                "y": 431
             },
             {
                 "x": 500,
