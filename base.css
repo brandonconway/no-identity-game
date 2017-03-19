@@ -18,3 +18,13 @@ img {
 h1.title {
   text-align: center;
 }
+
+
+/* Portrait and Landscape */
+@media screen
+  and (max-device-height: 640px) {
+      img {
+          display: none;
+      }
+
+}
