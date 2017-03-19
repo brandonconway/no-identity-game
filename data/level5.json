@@ -18,44 +18,44 @@
         },
         "goal": {
             "xOffset": 790,
-            "yOffset": 375
+            "yOffset": 330
         },
         "platforms": [
                         {
                          "xOffset": -10,
-                         "yOffset": 15,
-                         "scaleX": 50,
-                         "scaleY": 1,
+                         "yOffset": 60,
+                         "scaleX": 40,
+                         "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": -50,
-                         "yOffset": 300,
-                         "scaleX": 25,
-                         "scaleY": 1,
+                         "yOffset": 315,
+                         "scaleX": 20,
+                         "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
-                         "xOffset": 350,
-                         "yOffset": 160,
-                         "scaleX": 21,
-                         "scaleY": 1,
+                         "xOffset": 400,
+                         "yOffset": 190,
+                         "scaleX": 19,
+                         "scaleY": 0.5,
                          "key": "ground"
                      }
         ],
         "boars": [
             {
                 "x": 300,
-                "y": 150
+                "y": 135
             },
             {
                 "x": 500,
-                "y": 290
+                "y": 257
             }
         ],
         "wizard": {
             "x": 130,
-            "y": 359
+            "y": 317
         }
     }
 }

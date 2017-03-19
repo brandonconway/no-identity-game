@@ -37,26 +37,26 @@
         },
         "goal": {
             "xOffset": 790,
-            "yOffset": 375
+            "yOffset": 330
         },
         "platforms": [
                         {
                          "xOffset": -10,
-                         "yOffset": 15,
+                         "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 1,
+                         "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": -50,
-                         "yOffset": 300,
+                         "yOffset": 320,
                          "scaleX": 15,
                          "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": 200,
-                         "yOffset": 160,
+                         "yOffset": 190,
                          "scaleX": 50,
                          "scaleY": 0.5,
                          "key": "ground"}

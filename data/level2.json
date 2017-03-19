@@ -18,47 +18,40 @@
         },
         "goal": {
             "xOffset": 790,
-            "yOffset": 85
+            "yOffset": 110
         },
         "platforms": [
                         {
                          "xOffset": -10,
-                         "yOffset": 20,
+                         "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 1,
+                         "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": 80,
-                         "yOffset": 80,
+                         "yOffset": 120,
                          "scaleX": 10,
                          "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": 200,
-                         "yOffset": 140,
+                         "yOffset": 160,
                          "scaleX": 10,
                          "scaleY": 0.5,
                          "key": "ground"
                         },
-                        {
-                         "xOffset": 250,
-                         "yOffset": 190,
-                         "scaleX": 5,
-                         "scaleY": 0.5,
-                         "key": "ground"
-                         },
                          {
                           "xOffset": 350,
-                          "yOffset": 248,
+                          "yOffset": 220,
                           "scaleX": 10,
                           "scaleY": 0.5,
                           "key": "ground"
                         },
                         {
                          "xOffset": 480,
-                         "yOffset": 305,
+                         "yOffset": 280,
                          "scaleX": 20,
                          "scaleY": 0.5,
                          "key": "ground"

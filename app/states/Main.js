@@ -104,12 +104,12 @@ class Main extends Phaser.State {
                 silent.visible = false;
                 silent.enableBody = true;
                 silent.body.immovable = true;
-                silent.scale.set(0.26, 0.26);
+                silent.scale.set(0.27, 0.27);
                 silent.anchor.set(0, 0);
-                silent.body.checkCollision.up = false;
-                silent.body.checkCollision.down = true;
-                silent.body.checkCollision.top = false;
-                silent.body.checkCollision.top = false;
+                //silent.body.checkCollision.up = false;
+                //silent.body.checkCollision.down = true;
+                //silent.body.checkCollision.top = false;
+                //silent.body.checkCollision.top = false;
             });
 
             this.game.physics.enable(this.portals, Phaser.Physics.ARCADE);
@@ -160,7 +160,7 @@ class Main extends Phaser.State {
             wizard_data = this.levelData.level.wizard;
             this.wizard = this.game.add.sprite(wizard_data.x+30, wizard_data.y, 'boar');
             this.wizard.scale.setTo(-1, 1);
-            this.wizard.health = 10;
+            this.wizard.health = 5;
             this.game.physics.enable(this.wizard, Phaser.Physics.ARCADE);
             this.wizard.enableBody = true;
             // wizard needs to do blasting and killing

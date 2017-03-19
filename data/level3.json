@@ -27,50 +27,44 @@
             "text": "Use the portals to move around the level"
         },
         "goal": {
-            "xOffset": 790,
-            "yOffset": 80
+            "xOffset": 475,
+            "yOffset": 80,
+            "scale": -1
         },
         "platforms": [
                         {
                          "xOffset": -10,
-                         "yOffset": 18,
+                         "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 1,
+                         "scaleY": 0.5,
                          "key": "ground"
                         },
                         {
                          "xOffset": 220,
                          "yOffset": 470,
                          "scaleX": 0.5,
-                         "scaleY": 25,
+                         "scaleY": 22,
                          "key": "ground"
                         },
                          {
                           "xOffset": 230,
-                          "yOffset": 100,
+                          "yOffset": 140,
                           "scaleX": 11,
-                          "scaleY": 1,
+                          "scaleY": 0.5,
                           "key": "ground"
                         },
                         {
                          "xOffset": 480,
-                         "yOffset": 300,
+                         "yOffset": 305,
                          "scaleX": 0.5,
-                         "scaleY": 28,
+                         "scaleY": 22,
                          "key": "ground"
                        },
-                       {
-                        "xOffset": 480,
-                        "yOffset": 150,
-                        "scaleX": 9,
-                        "scaleY": 1,
-                        "key": "ground"
-                        },
                         {
                          "xOffset": 450,
                          "yOffset": 310,
                          "scaleX": 20,
-                         "scaleY": 1,
+                         "scaleY": 0.5,
                          "key": "ground"
                         }
 
@@ -78,7 +72,7 @@
         "portals": [
             {
                 "x": 132,
-                "y": 431
+                "y": 389
             },
             {
                 "x": 250,
@@ -86,18 +80,18 @@
             },
             {
                 "x": 400,
-                "y": 349.5
+                "y": 309.5
             },
             {
                 "x": 510,
-                "y": 160
+                "y": 150
             },
             {
-                "x": 510,
-                "y": 431
+                "x": 690,
+                "y": 389
             },
             {
-                "x": 500,
+                "x": 650,
                 "y": 1
             }
         ]
