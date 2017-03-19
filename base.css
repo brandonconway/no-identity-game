@@ -1,6 +1,14 @@
 body {
-    background-color: #333;
+    background-color: #131313;
     color: white;
+}
+
+#main {
+    text-align: center;
+}
+
+img {
+    width: 800px;
 }
 
 #game-container canvas{
