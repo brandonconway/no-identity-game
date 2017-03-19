@@ -130,7 +130,7 @@ class Main extends Phaser.State {
                 follower.enableBody = true;
                 follower.body.gravity.y = this.game.gravity;
                 follower.body.bounce.y = 0.2
-                follower.scale.x = -1;
+                follower.scale.setTo(0.6);
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
                 follower.anchor.setTo(0.5, 0);
@@ -320,11 +320,28 @@ class Main extends Phaser.State {
 
         // Followers
         if (this.game.followers) {
+            let should_move = this.player.is_moving;
             this.game.physics.arcade.collide(
                 this.game.followers,
                 this.platforms
             );
+
             // player follow logic
+            // stop first follower just shy of full overlap
+            this.game.physics.arcade.overlap(
+                this.player,
+                this.game.followers,
+                (player, follower) => {
+                    let lower, upper;
+                    lower = player.x - 5;
+                    upper = player.x + 5;
+                    if (lower <= follower.x && follower.x <= upper){
+                        follower.body.velocity.x *= 0.5;
+                    }
+                }
+            );
+
+
             this.game.followers.children.forEach((person, index) => {
                 if (!person.body.touching.down)  {
                     person.let_bounce = true;
@@ -347,7 +364,8 @@ class Main extends Phaser.State {
                     else if (person.let_bounce) {
                         person.let_bounce = false;
                     }
-                    else if (this.player.y > person.y){
+                    // this probably breaks things.
+                    else if (this.player.y > person.y && should_move){
                     //else{
                         this.game.physics.arcade.moveToObject(
                             person, this.player, 50+(index*15));
@@ -355,12 +373,13 @@ class Main extends Phaser.State {
                 }
             });
 
+
             // level ends when slowest follower collides with goal
             this.game.physics.arcade.collide(this.player,
                 this.house,
                 (player, house) => {
                     player.visible = false;
-                    player.body.x += player.scale.x * -5; // make sure all followers collide w/ goal
+                    player.body.x += player.scale.x * 5; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
                     if (!this.goalMusic.isPlaying) {

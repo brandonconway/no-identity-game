@@ -15,7 +15,9 @@ class IdentityPlayer extends Phaser.Sprite {
         this.anchor.set(0.5, 1);
         this.enableBody = true;
         this.can_move = true;
-        this.scale.x = -1;
+
+        this.scale.setTo(0.6);
+
         this.is_firing = false;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;
@@ -38,6 +40,7 @@ class IdentityPlayer extends Phaser.Sprite {
         this.shootSound.volume = 0.4;
         this.jumpSound = this.game.add.audio("jumpSound");
         this.jumpSound.volume = 0.5;
+        this.is_moving = false;
 
     }
 
@@ -55,6 +58,7 @@ class IdentityPlayer extends Phaser.Sprite {
             }
             else {
                 this.body.velocity.x = 0;
+                this.is_moving = false;
             }
 
             if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
@@ -75,13 +79,22 @@ class IdentityPlayer extends Phaser.Sprite {
 
     moveRight () {
         this.body.velocity.x = 60;
-        this.scale.x = -1;
+        if (this.scale.x < 0) {
+            this.scale.x *= -1;
+        }
+
+        this.is_moving = true;
+            // player follow logic
+        //this.scale.x *= -1;
         // add animations
     }
 
     moveLeft () {
         this.body.velocity.x = -60;
-        this.scale.x = 1;
+        this.is_moving = true;
+        if (this.scale.x > 0) {
+            this.scale.x *= -1;
+        }
         // add animations
     }
 
