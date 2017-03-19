@@ -104,7 +104,7 @@ class Main extends Phaser.State {
                 silent.visible = false;
                 silent.enableBody = true;
                 silent.body.immovable = true;
-                silent.scale.set(0.25, 0.25);
+                silent.scale.set(0.26, 0.26);
                 silent.anchor.set(0, 0);
                 silent.body.checkCollision.up = false;
                 silent.body.checkCollision.down = true;
@@ -130,7 +130,7 @@ class Main extends Phaser.State {
                 follower.enableBody = true;
                 follower.body.gravity.y = this.game.gravity;
                 follower.body.bounce.y = 0.2
-                follower.scale.setTo(0.6);
+                follower.scale.setTo(0.5);
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
                 follower.anchor.setTo(0.7, 0);
