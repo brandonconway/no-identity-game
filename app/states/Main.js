@@ -23,7 +23,7 @@ class Main extends Phaser.State {
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
         this.identity_level = this.levelData.level.identity_level;
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
-        this.teleportHeight = 0;
+        this.reloadButton = this.game.addReloadButton(this.level);
     }
 
     create() {
@@ -133,7 +133,7 @@ class Main extends Phaser.State {
                 follower.scale.setTo(0.6);
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
-                follower.anchor.setTo(0.5, 0);
+                follower.anchor.setTo(0.7, 0);
             }
             this.game.physics.enable(this.game.followers, Phaser.Physics.ARCADE);
         }
@@ -327,20 +327,6 @@ class Main extends Phaser.State {
             );
 
             // player follow logic
-            // stop first follower just shy of full overlap
-            this.game.physics.arcade.overlap(
-                this.player,
-                this.game.followers,
-                (player, follower) => {
-                    let lower, upper;
-                    lower = player.x - 5;
-                    upper = player.x + 5;
-                    if (lower <= follower.x && follower.x <= upper){
-                        follower.body.velocity.x *= 0.5;
-                    }
-                }
-            );
-
 
             this.game.followers.children.forEach((person, index) => {
                 if (!person.body.touching.down)  {
@@ -365,7 +351,8 @@ class Main extends Phaser.State {
                         person.let_bounce = false;
                     }
                     // this probably breaks things.
-                    else if (this.player.y > person.y && should_move){
+                    //else if (this.player.y > person.y && should_move){
+                    else if (this.player.y > person.y ){
                     //else{
                         this.game.physics.arcade.moveToObject(
                             person, this.player, 50+(index*15));

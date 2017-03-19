@@ -19,6 +19,8 @@ class IdentityPlayer extends Phaser.Sprite {
         this.scale.setTo(0.6);
 
         this.is_firing = false;
+        this.is_moving = false;
+        this.is_jumping = false;
         this.isTeleporting = false;
         this.body.bounce.y = 0.2;
         this.body.bounce.x = 1;
@@ -40,7 +42,6 @@ class IdentityPlayer extends Phaser.Sprite {
         this.shootSound.volume = 0.4;
         this.jumpSound = this.game.add.audio("jumpSound");
         this.jumpSound.volume = 0.5;
-        this.is_moving = false;
 
     }
 
@@ -60,16 +61,18 @@ class IdentityPlayer extends Phaser.Sprite {
                 this.body.velocity.x = 0;
                 this.is_moving = false;
             }
-
-            if (this.jumpButton.isDown && this.can_jump && this.body.touching.down) {
+            console.log(this.body.blocked.down)
+            if (this.jumpButton.isDown && this.body.touching.down) {
         	    this.jump();
-                this.is_jumping = true;
             }
+            //else if (this.jumpButton.isUp) {
             else {
                 this.is_jumping = false;
             }
+
             if (this.shootButton.isDown && this.can_shoot && !this.is_firing){
                 this.fireBlast();
+
             }
             if (this.shootButton.isUp && this.can_shoot) {
                 //this.is_firing = false;
@@ -99,11 +102,11 @@ class IdentityPlayer extends Phaser.Sprite {
     }
 
     jump () {
-        //if(!this.jumpSound.isPlaying){
-           this.jumpSound.play();
-        //}
-        this.body.velocity.y -= 400;
-        // add animations
+        if (!this.is_jumping && this.body.touching.down) {
+            this.jumpSound.play();
+            this.is_jumping = true;
+            this.body.velocity.y -= 400;
+        }
     }
 
     fireBlast () {
@@ -117,12 +120,12 @@ class IdentityPlayer extends Phaser.Sprite {
            this.blast = this.game.make.sprite(this.body.center.x,
                this.body.y-10, 'blast');
            this.blast.scale.setTo(0.5, 0.5);
-           this.blast.scale.x *= -1 * this.scale.x;
+           //this.blast.scale.x *= -1 * this.scale.x;
            this.game.add.existing(this.blast);
            this.blast.enableBody = true;
            this.game.physics.enable(this.blast, Phaser.Physics.ARCADE);
            // try other easings?
-           size = this.scale.x * -2;
+           size = this.scale.x * 2;
            tween = this.game.add.tween(this.blast.scale).to(
                    { x:  size},
                    420, "Linear", true);

@@ -75,6 +75,12 @@ class Game extends Phaser.Game {
         }, 1000);
     }
 
+    reloadLevel (level) {
+        setTimeout(() => {
+            this.state.start('Main', true, false, level);
+        }, 50);
+    }
+
     addTouch(game, level) {
         let cursors, rightButton, leftButton,
             jumpButton, shootButton;
@@ -173,6 +179,7 @@ class Game extends Phaser.Game {
         }
     }
 
+
     addIdentityBar (identity_level) {
         // this should extend sprite
         let x, y, width, height, text, style, i, bar, identity_bar;
@@ -204,6 +211,16 @@ class Game extends Phaser.Game {
             identity_bar.bar.push(bar);
         }
         return identity_bar;
+    }
+
+    addReloadButton (level) {
+        this.reloadButton = this.add.button(this.width-60, 5,
+             'reloadButton',
+             () => {
+                 this.reloadLevel(level)
+             }
+        );
+        this.reloadButton.scale.set(0.5);
     }
 
     addFullScreenButton () {
