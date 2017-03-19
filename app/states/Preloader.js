@@ -10,6 +10,7 @@ class Preloader extends Phaser.State  {
         this.load.image('pauseButton', 'assets/images/pause_button.png');
         this.load.image('fullScreenButton', 'assets/images/fullscreen_button.png');
         this.load.image('reloadButton', 'assets/images/reload_button.png');
+        this.load.image('shootButton', 'assets/images/shoot_button.png');
 
         //this.load.image('player', 'assets/images/identifier.png');
         //this.load.image('player', 'assets/images/red_fade_player.png');

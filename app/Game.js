@@ -136,9 +136,9 @@ class Game extends Phaser.Game {
 
             if (this.levelData.level.player.can_shoot) {
                 shootButton = this.add.sprite(
-                    70, game.height-10, 'playButton');
+                    70, game.height-10, 'shootButton');
                 shootButton.inputEnabled = true;
-                shootButton.scale.setTo(2,2);
+                shootButton.scale.setTo(0.5);
                 shootButton.anchor.y = 1;
                 shootButton.events.onInputDown.add(onDown,
                     {'direction': 'shoot'}
