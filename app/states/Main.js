@@ -130,7 +130,7 @@ class Main extends Phaser.State {
                 follower.enableBody = true;
                 follower.body.gravity.y = this.game.gravity;
                 follower.body.bounce.y = 0.2
-                follower.scale.setTo(0.5);
+                follower.scale.setTo(0.55);
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
                 follower.anchor.setTo(0.7, 0);

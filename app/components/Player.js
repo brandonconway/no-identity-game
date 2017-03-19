@@ -16,7 +16,7 @@ class IdentityPlayer extends Phaser.Sprite {
         this.enableBody = true;
         this.can_move = true;
 
-        this.scale.setTo(0.5);
+        this.scale.setTo(0.55);
 
         this.is_firing = false;
         this.is_moving = false;
@@ -42,7 +42,7 @@ class IdentityPlayer extends Phaser.Sprite {
         this.shootSound = this.game.add.audio("blastSound");
         this.shootSound.volume = 0.4;
         this.jumpSound = this.game.add.audio("jumpSound");
-        this.jumpSound.volume = 0.5;
+        this.jumpSound.volume = 0.6;
 
     }
 

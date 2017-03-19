@@ -91,7 +91,7 @@ class Game extends Phaser.Game {
             this.levelData = game.cache.getJSON(`level${level}`);
 
             leftButton = this.add.sprite(
-                40, game.height/2, 'playButton');
+                game.width-100, game.height-50, 'playButton');
             leftButton.inputEnabled = true;
             leftButton.scale.setTo(2,3);
             leftButton.scale.x *= -1;
@@ -102,7 +102,7 @@ class Game extends Phaser.Game {
             leftButton.events.onInputUp.add(onUp, {'cursors': cursors});
 
             rightButton = this.add.sprite(
-                game.width-40, game.height/2, 'playButton');
+                game.width-50, game.height-50, 'playButton');
             rightButton.inputEnabled = true;
             rightButton.scale.setTo(2,3);
             rightButton.events.onInputDown.add(onDown,
@@ -112,7 +112,7 @@ class Game extends Phaser.Game {
             rightButton.events.onInputUp.add(onUp, {'cursors': cursors});
             if (this.levelData.level.player.can_jump) {
                 jumpButton = this.add.sprite(
-                    game.width-40, game.height/2+10, 'playButton');
+                    50, game.height-10, 'playButton');
                 jumpButton.inputEnabled = true;
                 jumpButton.scale.setTo(2,2);
                 jumpButton.anchor.y = 1;
@@ -121,7 +121,7 @@ class Game extends Phaser.Game {
                     {'direction': 'jump'}
                 );
                 jumpButton.events.onInputUp.add(stopJump);
-
+                /*
                 jumpButton = this.add.sprite(
                     40, game.height/2+10, 'playButton');
                 jumpButton.inputEnabled = true;
@@ -131,54 +131,55 @@ class Game extends Phaser.Game {
                     {'direction': 'jump'}
                 );
                 jumpButton.events.onInputUp.add(stopJump);
+                */
             }
-            /*
-            shootButton = this.add.sprite(
-                40, game.height/2, 'playButton');
-            shootButton.inputEnabled = true;
-            shootButton.scale.setTo(2,2);
-            shootButton.events.onInputDown.add(onDown,
-                {'direction': 'shoot'}
-            );
-            shootButton.events.onInputUp.add(stopShoot);
-            */
-        }
 
-        function onDown(sprite, pointer) {
-            if (this.direction == 'left') {
-                this.cursors.left.isDown = true;
+            if (this.levelData.level.player.can_shoot) {
+                shootButton = this.add.sprite(
+                    70, game.height-10, 'playButton');
+                shootButton.inputEnabled = true;
+                shootButton.scale.setTo(2,2);
+                shootButton.anchor.y = 1;
+                shootButton.events.onInputDown.add(onDown,
+                    {'direction': 'shoot'}
+                );
+                shootButton.events.onInputUp.add(stopShoot);
             }
-            else if (this.direction == 'right'){
-                this.cursors.right.isDown = true;
+
+            function onDown(sprite, pointer) {
+                if (this.direction == 'left') {
+                    this.cursors.left.isDown = true;
+                }
+                else if (this.direction == 'right'){
+                    this.cursors.right.isDown = true;
+                }
+                if (this.direction == 'jump'){
+                    // TODO: pass player or button in as arg
+                    game.player.jumpButton.isDown = true;
+                }
+                if (this.direction == 'shoot'){
+                    // TODO: pass player or button in as arg
+                    game.player.shootButton.isDown = true;
+                    game.player.shootButton.isUp = false;
+                }
             }
-            if (this.direction == 'jump'){
-                // TODO: pass player or button in as arg
-                game.player.jumpButton.isDown = true;
+
+            function onUp (){
+                this.cursors.left.isDown = false;
+                this.cursors.right.isDown = false;
             }
-            if (this.direction == 'shoot'){
-                // TODO: pass player or button in as arg
-                game.player.shootButton.isDown = true;
-                game.player.shootButton.isUp = false;
 
-
+            function stopJump (){
+                game.player.jumpButton.isDown = false;
             }
-        }
 
-        function onUp (){
-            this.cursors.left.isDown = false;
-            this.cursors.right.isDown = false;
-        }
+            function stopShoot(){
+                game.player.shootButton.isDown = false;
+                game.player.shootButton.isUp = true;
+            }
 
-        function stopJump (){
-            game.player.jumpButton.isDown = false;
-        }
-
-        function stopShoot(){
-            game.player.shootButton.isDown = false;
-            game.player.shootButton.isUp = true;
-        }
+        } //end if touch
     }
-
 
     addIdentityBar (identity_level) {
         // this should extend sprite
