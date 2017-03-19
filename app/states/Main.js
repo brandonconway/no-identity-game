@@ -158,15 +158,15 @@ class Main extends Phaser.State {
         // Wizard
         if (this.levelData.level.wizard) {
             wizard_data = this.levelData.level.wizard;
-            this.wizard = this.game.add.sprite(wizard_data.x, wizard_data.y, 'boar');
+            this.wizard = this.game.add.sprite(wizard_data.x+30, wizard_data.y, 'boar');
             this.wizard.scale.setTo(-1, 1);
             this.wizard.health = 10;
             this.game.physics.enable(this.wizard, Phaser.Physics.ARCADE);
             this.wizard.enableBody = true;
             // wizard needs to do blasting and killing
-            this.create_wizard_blasts = () => {
-                this.wizard_blasts = this.game.add.group();
-                this.wizard_blasts.createMultiple(3, "snow", null, true);
+            this.create_wizard_blasts = (blasts) => {
+                this.wizard_blasts = blasts || this.game.add.group();
+                this.wizard_blasts.createMultiple(3, "ground", null, true);
                 this.game.physics.enable(this.wizard_blasts, Phaser.Physics.ARCADE);
 
                 this.wizard_blasts.children.forEach((blast, index)=>{
@@ -174,7 +174,7 @@ class Main extends Phaser.State {
                     blast.x = this.wizard.x-10;
                     blast.y = this.wizard.y;
                     blast.body.velocity.x = 300;
-                    blast.scale.setTo(0.1, 0.1);
+                    blast.scale.setTo(0.5, 0.5);
                     let r = Math.random() * 2 - 1;
                     blast.body.gravity.y = 200 * r;
                     });
@@ -238,16 +238,22 @@ class Main extends Phaser.State {
 
         // Wizard
         if (this.wizard) {
+            this.game.physics.arcade.collide(this.wizard, this.bouncers,
+                this.bounceBack, null, this);
+            this.game.physics.arcade.collide(this.player, this.wizard,
+                    this.player.doDamage, null, this);
+
             this.wizard_blasts.children.forEach((blast)=>{
                 if (blast.body.x > this.game.width) {
                     blast.body.x = this.wizard.x-10;
                     blast.body.y = this.wizard.y;
                 }
-                // inseatd use get alive?
-                if (this.wizard_blasts.children.length < 1) {
+                // instead use get alive?
+                if (this.wizard_blasts.getFirstAlive() === null) {
                     // rebuild blasts or charge?
-                    console.log('out')
-                    this.create_wizard_blasts();
+                    // rebuild blasts is pretty difficult
+                    //this.create_wizard_blasts(this.wizard_blasts);
+                    this.wizard.body.velocity.x = 75;
                 }
             });
             this.game.physics.arcade.collide(
@@ -320,7 +326,7 @@ class Main extends Phaser.State {
 
         // Followers
         if (this.game.followers) {
-            let should_move = this.player.is_moving;
+            //let should_move = this.player.is_moving;
             this.game.physics.arcade.collide(
                 this.game.followers,
                 this.platforms
@@ -366,11 +372,14 @@ class Main extends Phaser.State {
                 this.house,
                 (player, house) => {
                     player.visible = false;
-                    player.body.x += player.scale.x * 5; // make sure all followers collide w/ goal
+                    player.body.x += player.scale.x * 12; // make sure all followers collide w/ goal
                     player.can_jump = false;
                     player.can_shoot = false;
                     if (!this.goalMusic.isPlaying) {
-                        this.goalMusic.play();
+                        if (!player.reached_goal) {
+                            player.reached_goal = true;
+                            this.goalMusic.play();
+                        }
                     }
                 },
                 null, this);
@@ -462,6 +471,9 @@ class Main extends Phaser.State {
         }
         else if (playerish.body.touching.left) {
             playerish.body.x += 5;
+        }
+        else if (this.player.body.touching.down) {
+            this.player.body.velocity.y -= 200;
         }
     }
 

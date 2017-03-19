@@ -28,6 +28,7 @@ class IdentityPlayer extends Phaser.Sprite {
         this.body.velocity.y = 0;
         this.velocity = 50;
         this.body.collideWorldBounds = true;
+        this.reached_goal = false;
         this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
         if (options != undefined) {
@@ -61,7 +62,7 @@ class IdentityPlayer extends Phaser.Sprite {
                 this.body.velocity.x = 0;
                 this.is_moving = false;
             }
-            console.log(this.body.blocked.down)
+
             if (this.jumpButton.isDown && this.body.touching.down) {
         	    this.jump();
             }
