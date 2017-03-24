@@ -36,7 +36,6 @@ class Main extends Phaser.State {
         // Basics
         this.game.stage.backgroundColor = this.backgroundColor;
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
-        this.game.addTouch(this.game, this.level);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
@@ -223,6 +222,8 @@ class Main extends Phaser.State {
         this.levelButton3 = this.game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         this.levelButton4 = this.game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
         this.levelButton5 = this.game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+        this.game.addTouch(this.game, this.level);
+
     }
 
     update () {

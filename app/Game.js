@@ -85,90 +85,104 @@ class Game extends Phaser.Game {
         let cursors, rightButton, leftButton,
             jumpButton, shootButton;
 
+        this.levelData = game.cache.getJSON(`level${level}`);
         cursors = game.cursors;
 
         if (game.device.touch) {
-            this.levelData = game.cache.getJSON(`level${level}`);
 
-            leftButton = this.add.sprite(
-                game.width-100, game.height-50, 'playButton');
-            leftButton.inputEnabled = true;
-            leftButton.scale.setTo(2,3);
-            leftButton.scale.x *= -1;
-            leftButton.events.onInputDown.add(onDown,
-                {'direction': 'left',
-                'cursors': cursors}
-            );
-            leftButton.events.onInputUp.add(onUp, {'cursors': cursors});
+            if( window.innerWidth < 1024) {
 
-            rightButton = this.add.sprite(
-                game.width-50, game.height-50, 'playButton');
-            rightButton.inputEnabled = true;
-            rightButton.scale.setTo(2,3);
-            rightButton.events.onInputDown.add(onDown,
-                {'direction': 'right',
-                'cursors': cursors}
-            );
-            rightButton.events.onInputUp.add(onUp, {'cursors': cursors});
-            if (this.levelData.level.player.can_jump) {
+                game.input.onDown.add(onDownMobile,
+                    {'cursors': cursors}
+                );
+                game.input.onUp.add(onUp, {'cursors': cursors});
+                game.player.events.onInputDown.add(startJump);
+            }
+            else if (!game.device.desktop){
+
+                leftButton = this.add.sprite(
+                    game.width-100, game.height-50, 'playButton');
+                leftButton.inputEnabled = true;
+                leftButton.scale.setTo(2,3);
+                leftButton.scale.x *= -1;
+                leftButton.events.onInputDown.add(onDownButton,
+                    {'direction': 'left',
+                    'cursors': cursors}
+                );
+                leftButton.events.onInputUp.add(onUp, {'cursors': cursors});
+
+                rightButton = this.add.sprite(
+                    game.width-50, game.height-50, 'playButton');
+                rightButton.inputEnabled = true;
+                rightButton.scale.setTo(2,3);
+                rightButton.events.onInputDown.add(onDownButton,
+                    {'direction': 'right',
+                    'cursors': cursors}
+                );
+                rightButton.events.onInputUp.add(onUp, {'cursors': cursors});
+
+
                 jumpButton = this.add.sprite(
                     50, game.height-10, 'playButton');
                 jumpButton.inputEnabled = true;
                 jumpButton.scale.setTo(2,2);
                 jumpButton.anchor.y = 1;
                 jumpButton.angle = -90;
-                jumpButton.events.onInputDown.add(onDown,
+                jumpButton.events.onInputDown.add(onDownButton,
                     {'direction': 'jump'}
                 );
                 jumpButton.events.onInputUp.add(stopJump);
-                /*
-                jumpButton = this.add.sprite(
-                    40, game.height/2+10, 'playButton');
-                jumpButton.inputEnabled = true;
-                jumpButton.scale.setTo(2,2);
-                jumpButton.angle = -90;
-                jumpButton.events.onInputDown.add(onDown,
-                    {'direction': 'jump'}
-                );
-                jumpButton.events.onInputUp.add(stopJump);
-                */
-            }
 
-            if (this.levelData.level.player.can_shoot) {
                 shootButton = this.add.sprite(
                     70, game.height-10, 'shootButton');
                 shootButton.inputEnabled = true;
                 shootButton.scale.setTo(0.5);
                 shootButton.anchor.y = 1;
-                shootButton.events.onInputDown.add(onDown,
+                shootButton.events.onInputDown.add(onDownButton,
                     {'direction': 'shoot'}
                 );
                 shootButton.events.onInputUp.add(stopShoot);
+
             }
 
-            function onDown(sprite, pointer) {
-                if (this.direction == 'left') {
-                    this.cursors.left.isDown = true;
-                }
-                else if (this.direction == 'right'){
+            // callbacks
+            function onDownMobile(pointer) {
+                if (pointer.clientX > game.width/2 && pointer.clientY < game.height/2) {
                     this.cursors.right.isDown = true;
                 }
+                else if (pointer.clientX < game.width/2 && pointer.clientY < game.height/2){
+                    this.cursors.left.isDown = true;
+                }
+                if (pointer.clientY > game.height/2) {
+                    startJump();
+                }
+            }
+
+            function onDownButton (){
+                if (this.direction == 'left'){
+                    this.cursors.left.isDown = true;
+                }
+                if (this.direction == 'right'){
+                    this.cursors.right.isDown = true;
+                }
+
                 if (this.direction == 'jump'){
-                    // TODO: pass player or button in as arg
                     game.player.jumpButton.isDown = true;
                 }
                 if (this.direction == 'shoot'){
-                    // TODO: pass player or button in as arg
                     game.player.shootButton.isDown = true;
-                    game.player.shootButton.isUp = false;
                 }
             }
 
             function onUp (){
                 this.cursors.left.isDown = false;
                 this.cursors.right.isDown = false;
+                game.player.jumpButton.isDown = false;
             }
 
+            function startJump (){
+                game.player.jumpButton.isDown = true;
+            }
             function stopJump (){
                 game.player.jumpButton.isDown = false;
             }
