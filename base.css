@@ -22,7 +22,7 @@ h1.title {
 
 /* Portrait and Landscape */
 @media screen
-  and (max-device-height: 640px) {
+  and (max-device-height: 670px) {
       img {
           display: none;
       }

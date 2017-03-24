@@ -19,7 +19,7 @@ class Main extends Phaser.State {
         this.game.gravity = 1500; // will this change per stage?
         this.level = level;
         this.complete = false;
-        this.backgroundColor = 'black'; // will this change per stage?
+        this.backgroundColor = '#131313'; // will this change per stage?
         this.levelData = this.game.cache.getJSON(`level${this.level}`);
         this.identity_level = this.levelData.level.identity_level;
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
