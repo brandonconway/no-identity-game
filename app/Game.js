@@ -229,7 +229,14 @@ class Game extends Phaser.Game {
     }
 
     addReloadButton (level) {
-        this.reloadButton = this.add.button(this.width-60, 5,
+        let x;
+        if (!this.device.touch) {
+            x = this.width-60
+        }
+        else {
+            x = this.width - 35;
+        }
+        this.reloadButton = this.add.button(x, 5,
              'reloadButton',
              () => {
                  this.reloadLevel(level)
@@ -239,17 +246,19 @@ class Game extends Phaser.Game {
     }
 
     addFullScreenButton () {
-        if(!this.scale.isFullScreen) {
-            var game;
-            game = this;
-            this.fullButton = this.add.button(this.width-10, 10,
-                                     'fullScreenButton',
-                                     this.enterFullScreen, this
-                                 );
-            this.fullButton.anchor.set(0.5);
-            this.scale.onFullScreenChange.add(function() {
-                game.fullButton.visible = !game.scale.isFullScreen;
-            });
+        let game;
+        game = this;
+        if (!game.device.touch) {
+            if(!this.scale.isFullScreen) {
+                this.fullButton = this.add.button(this.width-10, 10,
+                    'fullScreenButton',
+                    this.enterFullScreen, this
+                );
+                this.fullButton.anchor.set(0.5);
+                this.scale.onFullScreenChange.add(function() {
+                    game.fullButton.visible = !game.scale.isFullScreen;
+                });
+            }
         }
     }
 
