@@ -14,12 +14,14 @@ class Preloader extends Phaser.State  {
         this.text.anchor.setTo(0.5);
 	    this.load.setPreloadSprite(this.preloadBar);
 
-        // Buttons
-        this.load.image('playButton', 'assets/images/play_button.png');
+        // Buttons, etc
+        this.load.image('playButton', 'assets/images/start_button.png');
         this.load.image('pauseButton', 'assets/images/pause_button.png');
         this.load.image('fullScreenButton', 'assets/images/fullscreen_button.png');
         this.load.image('reloadButton', 'assets/images/reload_button.png');
         this.load.image('shootButton', 'assets/images/shoot_button.png');
+        this.load.image('noIdentity', 'assets/images/no_identity.jpg');
+        this.load.image('start', 'assets/images/start.png');
         // Game objects
         this.load.image('player', 'assets/images/blues_player2.png');
         this.load.image('house', 'assets/images/house.png');
@@ -45,7 +47,7 @@ class Preloader extends Phaser.State  {
         this.state.add("MainMenu", MainMenu);
         this.state.start('MainMenu');
     }
-    
+
 }
 
 export { Preloader }
