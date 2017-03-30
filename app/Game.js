@@ -43,7 +43,7 @@ class Game extends Phaser.Game {
             collider.kill();
             if (this.level + 1 > this.game.total_levels) {
                 setTimeout(() => {
-                    this.state.start('MainMenu'); // Call EndGame state instead
+                    this.state.start('MainMenu'); // Call completeGame state instead
                 }, 1500);
             }
             else { // go to next level
@@ -333,7 +333,7 @@ class WinText extends Phaser.Text {
         let text, x, y, style, game;
         text = `Level ${stage.level} complete!`;
         x = stage.game.width/2;
-        y = stage.game.height/2;
+        y = stage.game.height/2 - 100;
         style = stage.game.headerStyle;
         game = stage.game;
         super(game, x, y, text, style);

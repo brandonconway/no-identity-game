@@ -46,7 +46,7 @@ class LevelMenu extends Phaser.State {
                              this.game.textStyle
                             ).anchor.set(0.5);
 
-		/*
+
 		playButton = this.add.button(
              this.game.width/2,
              text.y+300, 'playButton',
@@ -54,16 +54,17 @@ class LevelMenu extends Phaser.State {
 		);
 		playButton.anchor.set(0.5);
 		playButton.scale.setTo(2, 2);
-		*/
+
         this.state.add('Main', Main);
 
-		setTimeout(()=>{
+		this.timer = setTimeout(()=>{
 				this.startGame();
-		}, 3000);
+		}, 2000);
 	}
 
 	startGame (level) {
-		//amazing iOS audio hack
+		clearTimeout(this.timer);
+		//amazing iOS audio hack (add and start each audio track you need)
 		this.startMusic = this.add.audio('mainMusic');
 		this.startMusic.volume = 0;
         this.startMusic.play();
