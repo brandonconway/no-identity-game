@@ -53,13 +53,13 @@ class LevelMenu extends Phaser.State {
              this.startGame, this
 		);
 		playButton.anchor.set(0.5);
-		playButton.scale.setTo(2, 2);
+		playButton.scale.setTo(0.5);
 
         this.state.add('Main', Main);
 
 		this.timer = setTimeout(()=>{
 				this.startGame();
-		}, 2000);
+		}, 3000);
 	}
 
 	startGame (level) {

@@ -17,11 +17,11 @@ class MainMenu extends Phaser.State {
         image.scale.setTo(0.5);
         image.anchor.x = 0.5;
         image.alpha = 0;
-        
+
         tween = this.add.tween(image).to(
             { alpha: 1 }, 2000, Phaser.Easing.Exponential.In, true);
         tween2 = this.add.tween(image).to(
-            { alpha: 0 }, 2000, Phaser.Easing.Exponential.Out, false, 500);
+            { alpha: 0 }, 2000, Phaser.Easing.Exponential.Out, false, 1500);
         tween.onComplete.add(()=>{
             tween2.start();
         });

@@ -14,7 +14,7 @@
         },
         "instructions": {
             "images": [],
-            "text": "You can jump now\n(press SPACEBAR or tap the up button to jump)"
+            "text": ""
         },
         "goal": {
             "xOffset": 790,

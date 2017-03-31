@@ -6,38 +6,43 @@ class HowToPlay extends Phaser.State {
     create () {
         this.game.addFullScreenButton();
 
-        var text, playButton;
+        var text, playButton, controlsImages;
         text = this.add.text(this.game.width/2,
                              this.game.height/4,
                              "How to play",
                              this.game.headerStyle
                             ).anchor.set(0.5);
         playButton = this.add.button(
-                                     this.game.width/2,
-                                     text.y+300, 'playButton',
-                                     this.startGame, this
-                                    );
-        playButton.scale.setTo(2, 2);
+            this.game.width/2, text.y+300, 'playButton', this.startGame, this);
+        playButton.scale.setTo(0.5);
         playButton.anchor.set(0.5);
 
-        /* add pretty background image?
-        var image = this.add.image(this.game.width/2-170,
-                                   this.game.height/4+100,
-                                   'player');
-        image.anchor.set(0.5);
-        */
         text = this.add.text(this.game.width/2,
-                             this.game.height/4+100,
-                             "Complete each level to discover your identity",
-                             this.game.textStyle
-                            ).anchor.set(0.5);
-
-        /* Add controls image (keyboard)
-        var image = this.add.image(this.game.width/2-170,
             this.game.height/4+100,
-            'player');
-        image.anchor.set(0.5);
+            "Complete each level to discover your identity",
+             this.game.textStyle
+        ).anchor.set(0.5);
+
+        // How to play instructions
+        /*
+        if (this.game.device.touch) {
+            if size is smaller than tablet {
+             show how to play phone controls
+            }
+            else if not desktop
+            // you are tablet
+            {
+                show tablet how to play
+            }
+        }
+        else {
+            // you are desktop/laptop hopefulley
+            show how to play desktop (keyboard)
+
+        }
+    }
         */
+
         this.state.add('LevelMenu', LevelMenu);
 
 	}
@@ -45,7 +50,6 @@ class HowToPlay extends Phaser.State {
 	startGame (level) {
 		this.state.start('LevelMenu', true, false, 1);
 	}
-
 
 };
 
