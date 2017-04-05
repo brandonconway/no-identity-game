@@ -93,6 +93,7 @@ class LevelMenu extends Phaser.State {
 		this.startMusic.volume = 0;
         this.startMusic.play();
         this.startMusic.stop();
+		
 
 		this.state.start('Main', true, false, this.level);
 	}

@@ -10,7 +10,9 @@ class MainMenu extends Phaser.State {
     }
 
     create() {
-
+        this.startMusic = this.add.audio('machine');
+        this.startMusic.loop = true;
+        this.startMusic.play();
         let image, style, text, playButton, tween, tween2;
 
         image = this.add.image(this.game.width/2, 0, 'noIdentity');
@@ -21,7 +23,7 @@ class MainMenu extends Phaser.State {
         tween = this.add.tween(image).to(
             { alpha: 1 }, 2000, Phaser.Easing.Exponential.In, true);
         tween2 = this.add.tween(image).to(
-            { alpha: 0 }, 2000, Phaser.Easing.Exponential.Out, false, 1500);
+            { alpha: 0 }, 2000, Phaser.Easing.Exponential.Out, false, 2000);
         tween.onComplete.add(()=>{
             tween2.start();
         });
@@ -39,6 +41,8 @@ class MainMenu extends Phaser.State {
         image.scale.setTo(0.5);
         image.anchor.x = 0.5;
         image.alpha = 0;
+        image.inputEnabled = true;
+        image.events.onInputDown.add(this.startGame, this);
 
         tween2.onComplete.add(()=>{
             this.add.tween(playButton).to(
@@ -51,7 +55,7 @@ class MainMenu extends Phaser.State {
     }
 
     startGame(pointer) {
-	    this.state.start('HowToPlay');
+	    this.state.start('HowToPlay', true, false, this.startMusic);
 	}
 };
 

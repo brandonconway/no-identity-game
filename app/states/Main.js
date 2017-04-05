@@ -12,10 +12,11 @@ class Main extends Phaser.State {
         * or into separate, relevant components
         */
         this.game.addFullScreenButton();
-        this.pauseButton = this.game.add.button(this.width-20, 0,
+        this.pauseButton = this.game.add.button(0, 0,
                              'pauseButton',
                              this.game.pauseGame, this
-                            );
+                         );
+        this.pauseButton.scale.setTo(0.5);
         this.game.gravity = 1500; // will this change per stage?
         this.level = level;
         this.complete = false;
@@ -24,6 +25,7 @@ class Main extends Phaser.State {
         this.identity_level = this.levelData.level.identity_level;
         this.identity_bar = this.game.addIdentityBar(this.identity_level);
         this.reloadButton = this.game.addReloadButton(this.level);
+        this.player_start = this.levelData.level.player.x;
     }
 
     create() {
@@ -123,7 +125,7 @@ class Main extends Phaser.State {
             for (var i = 0; i < this.levelData.level.followers.number; i++)
             {
                 let follower;
-                x = 0 - (40 + i);
+                x = this.player_start - (20 + i);
                 y = 0;
                 follower = this.game.followers.create(x, y, 'player');
                 follower.enableBody = true;
@@ -138,7 +140,7 @@ class Main extends Phaser.State {
         }
 
         // Player
-        x = 5;
+        x = this.player_start;
         y = 0;
         options = this.levelData.level.player;
         this.player = new IdentityPlayer(this.game, x, y, 'player', options);
@@ -210,7 +212,7 @@ class Main extends Phaser.State {
         this.boarOuchSound = this.game.add.audio("boarOuchSound");
         this.game.teleportSound.volume = 1;
         this.playerOuchSound.volume =  0.7;
-        this.boarOuchSound.volume = 1.1;
+        this.boarOuchSound.volume = 1;
 
         // Text
         win_text = new WinText(this);

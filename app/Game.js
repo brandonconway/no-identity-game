@@ -207,8 +207,8 @@ class Game extends Phaser.Game {
             boundsAlignH: "center",
             boundsAlignV: "middle"
         };
-        x = 80;
-        y = 4;
+        x = this.width/2-40;
+        y = this.height - 30;
         width = 10;
         height = 10;
 
@@ -229,14 +229,10 @@ class Game extends Phaser.Game {
     }
 
     addReloadButton (level) {
-        let x;
-        if (!this.device.touch) {
-            x = this.width-60
-        }
-        else {
-            x = this.width - 35;
-        }
-        this.reloadButton = this.add.button(x, 5,
+        let x, y;
+        x = this.width/2 + 20;
+        y = this.height - 40;
+        this.reloadButton = this.add.button(x, y,
              'reloadButton',
              () => {
                  this.reloadLevel(level)
@@ -246,15 +242,18 @@ class Game extends Phaser.Game {
     }
 
     addFullScreenButton () {
-        let game;
+        let game, x, y;
+        x = this.width-40;
+        y = 6;
         game = this;
         if (!game.device.touch) {
             if(!this.scale.isFullScreen) {
-                this.fullButton = this.add.button(this.width-10, 10,
+                this.fullButton = this.add.button(x, y,
                     'fullScreenButton',
                     this.enterFullScreen, this
                 );
-                this.fullButton.anchor.set(0.5);
+                //this.fullButton.anchor.set(0.5);
+                this.fullButton.scale.set(0.5);
                 this.scale.onFullScreenChange.add(function() {
                     game.fullButton.visible = !game.scale.isFullScreen;
                 });
@@ -269,9 +268,11 @@ class Game extends Phaser.Game {
 
     pauseGame (button) {
         this.game.paused = true;
+        this.pauseButton.visible = false;
         this.input.onDown.add(this.game.unPauseGame, this);
         this.unPauseButton = this.game.add.button(this.width/2, this.height/2,
                         'playButton', this.unPauseGame, this);
+        this.unPauseButton.scale.setTo(0.5);
     }
 
     unPauseGame (button) {
@@ -281,6 +282,7 @@ class Game extends Phaser.Game {
                 .contains(this.game.input.x, this.game.input.y)
 
             if (clicked_unpause) {
+                this.pauseButton.visible = true;
                 this.game.paused = false;
                 this.unPauseButton.destroy();
             }

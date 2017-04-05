@@ -3,9 +3,12 @@ import {LevelMenu} from "./LevelMenu.js";
 
 class HowToPlay extends Phaser.State {
 
+    init (music) {
+        this.music = music;
+    }
+
     create () {
         this.game.addFullScreenButton();
-
         var text, playButton, controlsImages;
         text = this.add.text(this.game.width/2,
                              this.game.height/4,
@@ -48,6 +51,7 @@ class HowToPlay extends Phaser.State {
 	}
 
 	startGame (level) {
+        this.music.stop();
 		this.state.start('LevelMenu', true, false, 1);
 	}
 

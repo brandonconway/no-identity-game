@@ -31,6 +31,7 @@ class Preloader extends Phaser.State  {
         this.load.image('blast', 'assets/images/ringblast.png');
         // Audio
         this.load.audio('mainMusic', ['assets/audio/main.m4a']);
+        this.load.audio('machine', ['assets/audio/machine.m4a']);
         this.load.audio('goalMusic', ['assets/audio/goal.m4a']);
         this.load.audio('playerOuchSound', ['assets/audio/new_ouch_sound.m4a']);
         this.load.audio('boarOuchSound', ['assets/audio/boar_ouch.m4a']);
