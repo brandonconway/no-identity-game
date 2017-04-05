@@ -6,7 +6,8 @@
         "player": {
             "can_jump":true,
             "can_shoot": false,
-            "image": "player"
+            "image": "player",
+            "x": 5
         },
         "enemies": null,
         "followers": {
@@ -14,7 +15,7 @@
         },
         "instructions": {
             "images": [],
-            "text": ""
+            "text": "I'm gonna climb that hill until I reach the top"
         },
         "goal": {
             "xOffset": 790,

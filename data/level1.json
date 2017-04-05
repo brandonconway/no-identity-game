@@ -6,7 +6,8 @@
         "player": {
             "can_jump": false,
             "can_shoot": false,
-            "image": "player"
+            "image": "player",
+            "x": 80
         },
         "followers": {
             "number": 5
@@ -33,7 +34,7 @@
                       "scale": 1.2
                     }
             ],
-            "text": "Guide all of your followers home\n  (Use the arrow keys to move)"
+            "text": "How could you have known that you’re not nothing if no one told you"
         },
         "goal": {
             "xOffset": 790,

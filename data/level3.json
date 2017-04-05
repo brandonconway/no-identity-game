@@ -6,7 +6,8 @@
         "player": {
             "can_jump": true,
             "can_shoot": false,
-            "image": "player"
+            "image": "player",
+            "x": 30
         },
         "enemies": null,
         "followers": {
@@ -24,7 +25,7 @@
                   "scale": 0.25
                 }
             ],
-            "text": "I will meet you underground"
+            "text": "We are all waterfalls slipping through the cracks downtown"
         },
         "goal": {
             "xOffset": 475,

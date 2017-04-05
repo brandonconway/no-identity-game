@@ -6,7 +6,8 @@
         "player": {
             "can_jump": true,
             "can_shoot": true,
-            "image": "player"
+            "image": "player",
+            "x": 10
         },
         "enemies": null,
         "followers": {
@@ -14,7 +15,7 @@
         },
         "instructions": {
             "images": [],
-            "text": "Watch out for the Wild Boar King"
+            "text": "maybe it falls apart and that's how it ends"
         },
         "goal": {
             "xOffset": 790,

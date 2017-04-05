@@ -6,7 +6,8 @@
         "player": {
             "can_jump": true,
             "can_shoot": true,
-            "image": "player"
+            "image": "player",
+            "x": 10
         },
         "enemies": null,
         "followers": {
