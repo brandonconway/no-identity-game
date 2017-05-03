@@ -202,7 +202,7 @@ class Game extends Phaser.Game {
         identity_bar = {};
         identity_bar.bar = [];
         style = {
-            font: "10px Arial",
+            font: "16px Arial",
             fill: "#fff",
             boundsAlignH: "center",
             boundsAlignV: "middle"
@@ -212,7 +212,7 @@ class Game extends Phaser.Game {
         width = 10;
         height = 10;
 
-        identity_bar.text = new Phaser.Text(this, x, y, "Identity level", style);
+        identity_bar.text = new Phaser.Text(this, x, y, "Identity ", style);
         identity_bar.text.anchor.set(1, 0);
         x+=3;
         this.add.existing(identity_bar.text);
@@ -220,7 +220,7 @@ class Game extends Phaser.Game {
         for (i=0; i<identity_level; i++){
             bar = this.add.graphics(1, 1);
             bar.beginFill(0xFFFFFF);
-            bar.drawRect(x, y, width, height);
+            bar.drawRect(x, y+5, width, height);
             bar.endFill();
             x+=width+1;
             identity_bar.bar.push(bar);
