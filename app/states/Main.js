@@ -198,7 +198,7 @@ class Main extends Phaser.State {
         }
         // Music and sounds
         this.goalMusic = this.add.audio('goalMusic');
-        this.goalMusic.volume = 0.6;
+        this.goalMusic.volume = 0.8;
         this.ouchSound = this.add.audio('ouchSound');
         this.mainMusic = this.add.audio('mainMusic');
         this.mainMusic.stop();
@@ -211,7 +211,7 @@ class Main extends Phaser.State {
         this.playerOuchSound = this.game.add.audio("playerOuchSound");
         this.boarOuchSound = this.game.add.audio("boarOuchSound");
         this.game.teleportSound.volume = 1;
-        this.playerOuchSound.volume =  0.7;
+        this.playerOuchSound.volume =  0.8;
         this.boarOuchSound.volume = 1;
 
         // Text
