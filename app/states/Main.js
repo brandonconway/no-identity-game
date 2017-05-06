@@ -192,6 +192,7 @@ class Main extends Phaser.State {
                 child.events.onInputDown.add(this.player.fireBlast, this.player);
             });
         }
+
         // Music and sounds
         this.goalMusic = this.add.audio('goalMusic');
         this.goalMusic.volume = 0.8;
@@ -366,23 +367,10 @@ class Main extends Phaser.State {
                 }
             });
 
-
             // level ends when slowest follower collides with goal
-            this.game.physics.arcade.collide(this.player,
-                this.house,
-                (player, house) => {
-                    player.visible = false;
-                    player.body.x += player.scale.x * 12; // make sure all followers collide w/ goal
-                    player.can_jump = false;
-                    player.can_shoot = false;
-                    if (!this.goalMusic.isPlaying) {
-                        if (!player.reached_goal) {
-                            player.reached_goal = true;
-                            this.goalMusic.play();
-                        }
-                    }
-                },
-                null, this);
+            this.game.physics.arcade.collide(
+                this.player, this.house, this.glowHouse, null, this);
+
 
             // first follower is slowest.
             let slowest_follower = this.game.followers.children[0];
@@ -395,12 +383,8 @@ class Main extends Phaser.State {
             this.game.physics.arcade.collide(
                 this.game.followers,
                 this.house,
-                (house, follower) => {
-                    follower.kill();
-                    this.goalMusic.play();
-                },
+                this.glowHouse,
                 null, this);
-
         }
         else {
             this.game.physics.arcade.collide(
@@ -497,6 +481,47 @@ class Main extends Phaser.State {
             boar.kill();
         })
     }
+
+    glowHouse (player, house) {
+        let tween, glow, adjust, tmp;
+        if (!(house instanceof Goal)) {
+            tmp = player;
+            player = house;
+            house = tmp;
+        }
+        player.can_jump = false;
+        player.can_shoot = false;
+        if (!this.goalMusic.isPlaying) {
+            if (!player.reached_goal) {
+                player.reached_goal = true;
+                this.goalMusic.play();
+            }
+        }
+        if (this.house.scale.x > 0){
+            adjust = 30;
+        }
+        else {
+            adjust = -50;
+        }
+        tween = this.add.tween(player.body).to(
+            { x: this.house.x + adjust}, 200, Phaser.Easing.Default, true);
+        glow = this.add.sprite(
+            this.house.x + adjust, this.house.y+12, 'glow'
+        );
+        glow.alpha = 0.0;
+        tween = this.add.tween(glow).to(
+            {alpha: 0.01}, 200, Phaser.Easing.Default, true
+        );
+        tween.yoyo(true, 5);
+        tween.onComplete.add(()=>{
+            player.body.x += player.scale.x * 12; // make sure all followers collide w/ goal
+            player.visible = false;
+        });
+        if (!(player instanceof IdentityPlayer)) {
+            player.kill();
+        }
+    }
+
 }
 
 export { Main };
