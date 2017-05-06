@@ -85,7 +85,7 @@ class Main extends Phaser.State {
             this.game.physics.enable(this.boars, Phaser.Physics.ARCADE);
         }
 
-        // Portals
+        // Portals TODO: refactor to module
         if (this.levelData.level.portals) {
             let portals, child, silent;
             portals = this.levelData.level.portals;
@@ -100,17 +100,13 @@ class Main extends Phaser.State {
                 child.body.immovable = true;
                 child.scale.set(0.25, 0.25);
                 child.anchor.set(0, 0);
-                // make invisble portals to block underneath.
+                // make invisble portals to block hitting from underneath.
                 silent = this.silent_portals.create(portal.x, portal.y+5, "portal")
                 silent.visible = false;
                 silent.enableBody = true;
                 silent.body.immovable = true;
                 silent.scale.set(0.27, 0.27);
                 silent.anchor.set(0, 0);
-                //silent.body.checkCollision.up = false;
-                //silent.body.checkCollision.down = true;
-                //silent.body.checkCollision.top = false;
-                //silent.body.checkCollision.top = false;
             });
 
             this.game.physics.enable(this.portals, Phaser.Physics.ARCADE);
@@ -118,7 +114,7 @@ class Main extends Phaser.State {
         }
 
 
-        // Followers
+        // Followers TODO: refactor to module
         if (this.levelData.level.followers) {
             this.game.followers = this.game.add.group();
             this.game.followers.enableBody = true;
@@ -156,7 +152,7 @@ class Main extends Phaser.State {
         }
         this.game.add.existing(this.house);
 
-        // Wizard
+        // Wizard TODO: refactor to module
         if (this.levelData.level.wizard) {
             wizard_data = this.levelData.level.wizard;
             this.wizard = this.game.add.sprite(wizard_data.x+30, wizard_data.y, 'boar');

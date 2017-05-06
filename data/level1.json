@@ -14,26 +14,7 @@
         },
         "enemies": null,
         "instructions": {
-            "images": [
-                    {
-                     "key": "player",
-                     "position":
-                        {
-                         "x": 225,
-                         "y": 200
-                        },
-                      "scale": 0.6
-                    },
-                    {
-                     "key": "house",
-                     "position":
-                         {
-                          "x": 575,
-                          "y": 200
-                      },
-                      "scale": 1.2
-                    }
-            ],
+            "images": [],
             "text": "How could you have known that you’re not nothing if no one told you"
         },
         "goal": {
