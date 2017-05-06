@@ -28,8 +28,8 @@
             "text": "We are all waterfalls slipping through the cracks downtown"
         },
         "goal": {
-            "xOffset": 475,
-            "yOffset": 80,
+            "xOffset": 455,
+            "yOffset": 82,
             "scale": -1
         },
         "platforms": [
@@ -37,35 +37,35 @@
                          "xOffset": -10,
                          "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": 220,
-                         "yOffset": 470,
-                         "scaleX": 0.5,
-                         "scaleY": 22,
+                         "yOffset": 450,
+                         "scaleX": 0.25,
+                         "scaleY": 20.5,
                          "key": "ground"
                         },
                          {
-                          "xOffset": 230,
+                          "xOffset": 224,
                           "yOffset": 140,
                           "scaleX": 11,
-                          "scaleY": 0.5,
+                          "scaleY": 0.25,
                           "key": "ground"
                         },
                         {
                          "xOffset": 480,
                          "yOffset": 305,
-                         "scaleX": 0.5,
-                         "scaleY": 22,
+                         "scaleX": 0.25,
+                         "scaleY": 13,
                          "key": "ground"
                        },
                         {
                          "xOffset": 450,
                          "yOffset": 310,
-                         "scaleX": 20,
-                         "scaleY": 0.5,
+                         "scaleX": 16,
+                         "scaleY": 0.25,
                          "key": "ground"
                         }
 
@@ -85,7 +85,7 @@
             },
             {
                 "x": 510,
-                "y": 150
+                "y": 148
             },
             {
                 "x": 690,

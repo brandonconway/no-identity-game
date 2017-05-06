@@ -55,35 +55,35 @@
                          "xOffset": -10,
                          "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                          {
                           "xOffset": 200,
                           "yOffset": 120,
                           "scaleX": 8,
-                          "scaleY": 0.5,
+                          "scaleY": 0.25,
                           "key": "ground"
                         },
                        {
                         "xOffset": 400,
                         "yOffset": 180,
                         "scaleX": 12,
-                        "scaleY": 0.5,
+                        "scaleY": 0.25,
                         "key": "ground"
                         },
                         {
                          "xOffset": 440,
                          "yOffset": 60,
                          "scaleX": 16,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": 120,
                          "yOffset": 315,
                          "scaleX": 10,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                      }
         ],

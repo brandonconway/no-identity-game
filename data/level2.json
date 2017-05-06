@@ -26,35 +26,35 @@
                          "xOffset": -10,
                          "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": 80,
                          "yOffset": 120,
                          "scaleX": 10,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": 200,
                          "yOffset": 160,
                          "scaleX": 10,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                          {
                           "xOffset": 350,
                           "yOffset": 220,
                           "scaleX": 10,
-                          "scaleY": 0.5,
+                          "scaleY": 0.25,
                           "key": "ground"
                         },
                         {
                          "xOffset": 480,
                          "yOffset": 280,
                          "scaleX": 20,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         }
 

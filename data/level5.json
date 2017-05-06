@@ -26,21 +26,21 @@
                          "xOffset": -10,
                          "yOffset": 60,
                          "scaleX": 40,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": -50,
                          "yOffset": 315,
                          "scaleX": 20,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                         },
                         {
                          "xOffset": 400,
                          "yOffset": 190,
                          "scaleX": 19,
-                         "scaleY": 0.5,
+                         "scaleY": 0.25,
                          "key": "ground"
                      }
         ],
