@@ -1,6 +1,7 @@
 import {MainMenu} from "./states/MainMenu.js"
 import {Main} from "./states/Main.js"
 import {IdentityPlayer} from "./components/Player.js"
+import {CompleteGame} from "./states/CompleteGame.js"
 
 // Game class
 
@@ -43,7 +44,8 @@ class Game extends Phaser.Game {
             collider.kill();
             if (this.level + 1 > this.game.total_levels) {
                 setTimeout(() => {
-                    this.state.start('MainMenu'); // Call completeGame state instead
+                    //this.state.start('MainMenu');
+                    this.game.completeGame();
                 }, 1500);
             }
             else { // go to next level
@@ -57,13 +59,16 @@ class Game extends Phaser.Game {
     completeGame () {
         // Necessary logic when completing game.
         // returns: a phaser game state
+        //play a specific sound
+        this.state.add("CompleteGame", CompleteGame);
+        this.state.start("CompleteGame");
     }
 
     restartLevel (level, state) {
         // tween?
         // flash Message
         let text;
-        text = this.add.text(400, 40, 'you lose', this.textStyle);
+        text = this.add.text(400, 40, 'You Lose', this.textStyle);
         state.player.kill();
         if (this.followers) {
             this.followers.visible = false;
@@ -288,7 +293,7 @@ class Game extends Phaser.Game {
             }
         }
     }
-
+    // TODO: move to player module.
     teleport (playerish, portal) {
         let lower, upper, tween, next_portal, next;
         lower = portal.x + portal.width/2 - portal.width * 0.1;
