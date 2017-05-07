@@ -334,7 +334,6 @@ class Main extends Phaser.State {
             );
 
             // player follow logic
-
             this.game.followers.children.forEach((person, index) => {
                 if (!person.body.touching.down)  {
                     person.let_bounce = true;
@@ -369,7 +368,7 @@ class Main extends Phaser.State {
 
             // level ends when slowest follower collides with goal
             this.game.physics.arcade.collide(
-                this.player, this.house, this.glowHouse, null, this);
+                this.player, this.house, this.house.glowHouse, null, this);
 
 
             // first follower is slowest.
@@ -383,7 +382,7 @@ class Main extends Phaser.State {
             this.game.physics.arcade.collide(
                 this.game.followers,
                 this.house,
-                this.glowHouse,
+                this.house.glowHouse,
                 null, this);
         }
         else {
@@ -426,6 +425,7 @@ class Main extends Phaser.State {
         this.mainMusic.stop();
     }
 
+    // much of this should be moved to component modules or Game Module
     boarCollide (playerish, boar) {
         let tween, hit;
         tween = this.game.add.tween(playerish).to(
@@ -480,46 +480,6 @@ class Main extends Phaser.State {
         tween.onComplete.add(()=>{
             boar.kill();
         })
-    }
-
-    glowHouse (player, house) {
-        let tween, glow, adjust, tmp;
-        if (!(house instanceof Goal)) {
-            tmp = player;
-            player = house;
-            house = tmp;
-        }
-        player.can_jump = false;
-        player.can_shoot = false;
-        if (!this.goalMusic.isPlaying) {
-            if (!player.reached_goal) {
-                player.reached_goal = true;
-                this.goalMusic.play();
-            }
-        }
-        if (this.house.scale.x > 0){
-            adjust = 30;
-        }
-        else {
-            adjust = -50;
-        }
-        tween = this.add.tween(player.body).to(
-            { x: this.house.x + adjust}, 200, Phaser.Easing.Default, true);
-        glow = this.add.sprite(
-            this.house.x + adjust, this.house.y+12, 'glow'
-        );
-        glow.alpha = 0.0;
-        tween = this.add.tween(glow).to(
-            {alpha: 0.01}, 200, Phaser.Easing.Default, true
-        );
-        tween.yoyo(true, 5);
-        tween.onComplete.add(()=>{
-            player.body.x += player.scale.x * 12; // make sure all followers collide w/ goal
-            player.visible = false;
-        });
-        if (!(player instanceof IdentityPlayer)) {
-            player.kill();
-        }
     }
 
 }
