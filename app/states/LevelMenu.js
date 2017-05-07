@@ -20,12 +20,10 @@ class LevelMenu extends Phaser.State {
         this.game.addFullScreenButton();
 		this.levelData = this.game.cache.getJSON(`level${this.level}`);
 
-        text = this.add.text(this.game.width/2,
+		text = this.add.image(this.game.width/2,
                              this.game.height/4,
-							 `Start ${this.levelData.level.title}`,
-                             this.game.headerStyle
+							 `level_${this.level}_text`,
                             ).anchor.set(0.5);
-
 		instructions = this.levelData.level.instructions;
 		images = instructions.images;
 
@@ -93,7 +91,7 @@ class LevelMenu extends Phaser.State {
 		this.startMusic.volume = 0;
         this.startMusic.play();
         this.startMusic.stop();
-		
+
 
 		this.state.start('Main', true, false, this.level);
 	}

@@ -33,6 +33,17 @@ class Preloader extends Phaser.State  {
         this.load.image('identity', 'assets/images/identity.png');
         this.load.image('start', 'assets/images/start.png');
         this.load.image('youLose', 'assets/images/you_lose.png');
+        this.load.image('level_1_text', 'assets/images/level_1_text.png');
+        this.load.image('level_2_text', 'assets/images/level_2_text.png');
+        this.load.image('level_3_text', 'assets/images/level_3_text.png');
+        this.load.image('level_4_text', 'assets/images/level_4_text.png');
+        this.load.image('level_5_text', 'assets/images/level_5_text.png');
+        this.load.image('level_6_text', 'assets/images/level_6_text.png');
+        this.load.image('level_7_text', 'assets/images/level_7_text.png');
+        this.load.image('level_8_text', 'assets/images/level_8_text.png');
+        this.load.image('level_9_text', 'assets/images/level_9_text.png');
+        this.load.image('level_10_text', 'assets/images/level_10_text.png');
+
         // Audio
         this.load.audio('mainMusic', ['assets/audio/main.m4a']);
         this.load.audio('machine', ['assets/audio/machine.m4a']);

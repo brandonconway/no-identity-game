@@ -14,35 +14,7 @@
             "number": 5
         },
         "instructions": {
-            "images": [
-                {
-                 "key": "player",
-                 "position":
-                    {
-                     "x": 200,
-                     "y": 140
-                    },
-                  "scale": 0.5
-              },
-              {
-               "key": "blast",
-               "position":
-                  {
-                   "x": 230,
-                   "y": 120
-                  },
-                "scale": 0.25
-              },
-              {
-               "key": "boar",
-               "position":
-                  {
-                   "x": 600,
-                   "y": 150
-                  },
-                "scale": 0.75
-              }
-            ],
+            "images": [],
             "text": "Cock that gun. Shoot that Boar."
         },
         "goal": {
