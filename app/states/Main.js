@@ -40,8 +40,6 @@ class Main extends Phaser.State {
         this.game.cursors = this.game.input.keyboard.createCursorKeys();
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
-
         // Platforms
         // TODO: each of these sections could be moved to a component module
         this.platforms = this.game.add.group();
@@ -113,8 +111,8 @@ class Main extends Phaser.State {
             this.game.physics.enable(this.silent_portals, Phaser.Physics.ARCADE);
         }
 
-
-        // Followers TODO: refactor to module
+        // FOLLOWERS
+        // Followers TODO: refactor to module FOLLOWERS
         if (this.levelData.level.followers) {
             this.game.followers = this.game.add.group();
             this.game.followers.enableBody = true;
@@ -130,7 +128,7 @@ class Main extends Phaser.State {
                 follower.scale.setTo(0.55);
                 follower.body.collideWorldBounds = true;
                 follower.isTeleporting = false;
-                follower.anchor.setTo(0.7, 0);
+                follower.anchor.setTo(0.5, 0);
             }
             this.game.physics.enable(this.game.followers, Phaser.Physics.ARCADE);
         }
@@ -301,7 +299,7 @@ class Main extends Phaser.State {
 
             this.game.physics.arcade.collide(this.wizard_blasts, this.platforms);
         }
-        // Portals
+        // Portals ///////////////////////////////////////////////////////////
         if (this.portals && this.game.followers) {
             this.game.physics.arcade.overlap(
                 this.player,
@@ -325,7 +323,8 @@ class Main extends Phaser.State {
             );
         }
 
-        // Followers
+        // Followers ***************** Followers ****** Followers ****//////
+
         if (this.game.followers) {
             //let should_move = this.player.is_moving;
             this.game.physics.arcade.collide(
@@ -350,16 +349,23 @@ class Main extends Phaser.State {
                     }
                 }
                 else if (person.body.touching.down) {
+
+                    // Turn the right direction
+                    if (this.player.x - person.x > 10) {
+                        person.scale.x = 0.55;
+                    }
+                    else {
+                        person.scale.x = -0.55;
+                    }
+
                     if (this.player.is_jumping) {
                         person.body.velocity.y -= 420;
                     }
                     else if (person.let_bounce) {
                         person.let_bounce = false;
                     }
-                    // this probably breaks things.
-                    //else if (this.player.y > person.y && should_move){
+                    // this probably breaks things. It does. see Portals
                     else if (this.player.y > person.y ){
-                    //else{
                         this.game.physics.arcade.moveToObject(
                             person, this.player, 50+(index*15));
                     }
@@ -391,8 +397,7 @@ class Main extends Phaser.State {
                 this.house,
                 this.game.winLevel, null, this);
         }
-
-        // blasts
+        // blasts /////////////////////////////////
         if (this.player.blast) {
             this.game.physics.arcade.collide(
                 this.player.blast,
@@ -464,7 +469,7 @@ class Main extends Phaser.State {
     bounceBack (boar, bouncer) {
         let flip = boar.scale.x;
         boar.scale.x = -1*flip;
-        //this.animations.play('walk')
+        //this.animations.play('walk') that would be cool, right?
         boar.body.velocity.x = flip * boar.velocity;
     }
 
