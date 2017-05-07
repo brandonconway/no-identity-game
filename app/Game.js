@@ -68,7 +68,8 @@ class Game extends Phaser.Game {
         // tween?
         // flash Message
         let text;
-        text = this.add.text(400, 40, 'You Lose', this.textStyle);
+        //text = this.add.text(400, 40, 'You Lose', this.textStyle);
+        text = this.add.image(400, 40, 'youLose');
         state.player.kill();
         if (this.followers) {
             this.followers.visible = false;

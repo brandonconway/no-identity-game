@@ -21,7 +21,6 @@ class Preloader extends Phaser.State  {
         this.load.image('reloadButton', 'assets/images/reload_button.png');
         this.load.image('shootButton', 'assets/images/shoot_button.png');
         this.load.image('noIdentity', 'assets/images/no_identity.jpg');
-        this.load.image('start', 'assets/images/start.png');
         // Game objects
         this.load.image('player', 'assets/images/blues_player2.png');
         this.load.image('glow', 'assets/images/glow.png');
@@ -30,7 +29,10 @@ class Preloader extends Phaser.State  {
         this.load.image('ground', 'assets/images/rect.png');
         this.load.image('boar', 'assets/images/boar.png');
         this.load.image('blast', 'assets/images/ringblast.png');
+        // Handwriting text
         this.load.image('identity', 'assets/images/identity.png');
+        this.load.image('start', 'assets/images/start.png');
+        this.load.image('youLose', 'assets/images/you_lose.png');
         // Audio
         this.load.audio('mainMusic', ['assets/audio/main.m4a']);
         this.load.audio('machine', ['assets/audio/machine.m4a']);
