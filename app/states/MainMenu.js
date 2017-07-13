@@ -13,17 +13,19 @@ class MainMenu extends Phaser.State {
         this.startMusic = this.add.audio('machine');
         this.startMusic.loop = true;
         this.startMusic.play();
-        let image, style, text, playButton, tween, tween2;
+        let image, style, text, playButton, tween, tween2, duration;
 
         image = this.add.image(this.game.width/2, 0, 'noIdentity');
         image.scale.setTo(0.5);
         image.anchor.x = 0.5;
         image.alpha = 0;
 
+        duration = 2000;
+        //duration = 20;
         tween = this.add.tween(image).to(
-            { alpha: 1 }, 2000, Phaser.Easing.Exponential.In, true);
+            { alpha: 1 }, duration, Phaser.Easing.Exponential.In, true);
         tween2 = this.add.tween(image).to(
-            { alpha: 0 }, 2000, Phaser.Easing.Exponential.Out, false, 2000);
+            { alpha: 0 }, duration, Phaser.Easing.Exponential.Out, false, duration);
         tween.onComplete.add(()=>{
             tween2.start();
         });
@@ -44,11 +46,13 @@ class MainMenu extends Phaser.State {
         image.inputEnabled = true;
         image.events.onInputDown.add(this.startGame, this);
 
+        duration = 800;
+        //duration = 20;
         tween2.onComplete.add(()=>{
             this.add.tween(playButton).to(
-                { alpha: 1 }, 800, "Linear", true);
+                { alpha: 1 }, duration, "Linear", true);
             this.add.tween(image).to(
-                    { alpha: 1 }, 800, "Linear", true);
+                    { alpha: 1 }, duration, "Linear", true);
         });
 
         this.state.add("HowToPlay", HowToPlay);

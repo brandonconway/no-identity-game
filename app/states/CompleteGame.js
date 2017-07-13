@@ -3,14 +3,9 @@ import {MainMenu} from "./MainMenu.js"
 
 class CompleteGame extends Phaser.State {
 
-	init (level) {
-	}
-
-	preload () {
-	}
-
 	create () {
-        let text;
+        let text, length;
+		length = 4000;
 
         this.game.addFullScreenButton();
         text = this.add.text(this.game.width/2,
@@ -21,7 +16,7 @@ class CompleteGame extends Phaser.State {
         this.state.add('MainMenu', MainMenu);
 		this.timer = setTimeout(()=>{
 				this.startGame();
-		}, 3000);
+		}, length);
 	}
 
 	startGame (level) {

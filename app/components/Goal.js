@@ -48,7 +48,7 @@ class Goal extends Phaser.Sprite {
         );
         glow.alpha = 0.0;
         tween = this.add.tween(glow).to(
-            {alpha: 0.03}, 200, Phaser.Easing.Default, true
+            {alpha: 0.025}, 200, Phaser.Easing.Default, true
         );
         tween.yoyo(true, 5);
         tween.onComplete.add(()=>{
